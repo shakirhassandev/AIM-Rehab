@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import Icon from '../components/Icon.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/spinal-brace-fitting.jpg';
+
+const groups = [
+  {
+    id: 'getting-started',
+    title: 'Getting started',
+    items: [
+      { q: 'What does a prosthetist and orthotist do?', a: 'A prosthetist makes and fits artificial limbs, like prosthetic legs and arms. An orthotist makes and fits braces, splints and insoles that support a part of your body. Our team is trained in both.' },
+      { q: 'Do I need a referral to book?', a: "Not always. For a brace after surgery, an injury or a fracture, we work from your doctor's instructions, so please bring any letters you have. For things like foot orthotics, you can usually book directly. If you're not sure, just call us." },
+      { q: 'What should I bring to my first visit?', a: "Bring any doctor's letters or scan reports, a list of your medicines, the shoes you wear most often and any device you already use. A list of questions helps too. Read our guide on how to prepare for your first visit for more tips." },
+      { q: 'How long is the first appointment?', a: 'Plan for about an hour. It can be shorter or longer depending on what you need and whether we take a cast on the same day.' },
+      { q: 'Can someone come with me?', a: 'Yes, and we encourage it. A family member or friend can help you remember what was said. For children, a parent or carer should always come along.' },
+    ],
+  },
+  {
+    id: 'prosthetics',
+    title: 'Prosthetic limbs',
+    items: [
+      { q: 'Is wearing a prosthetic leg painful?', a: "It shouldn't be. Some soreness is common in the first weeks while your body adjusts. Sharp pain, blisters or broken skin mean something needs changing, so contact us straight away." },
+      { q: 'How long does it take to get a prosthetic leg?', a: "Once your limb has healed and settled, casting, test fitting and the final fitting usually take a few weeks. We'll give you a clearer idea after your assessment." },
+      { q: 'How long does a prosthesis last?', a: 'Sockets often need changing every few years as your limb changes shape. Other parts can last longer with good care. Regular check-ups help us catch wear early.' },
+      { q: 'Can you replace just the socket of my current leg?', a: "Often, yes. If the other parts are in good condition, a new socket can make an old leg feel much better. Bring it in and we'll check." },
+      { q: 'Do you make prosthetic arms and hands?', a: 'Yes. We make passive and body-powered arms and hands, and we can talk you through more advanced options and whether they suit you.' },
+    ],
+  },
+  {
+    id: 'braces',
+    title: 'Braces and orthotics',
+    items: [
+      { q: 'What is the difference between an AFO, KAFO and HKAFO?', a: 'They cover different joints. An AFO supports the ankle and foot. A KAFO also supports the knee. An HKAFO goes up to the hip. Our AFO vs KAFO vs HKAFO guide explains this in more detail.' },
+      { q: 'Will an AFO help with foot drop?', a: 'For many people, yes. An AFO holds the front of the foot up so your toes are less likely to catch the ground. The best design depends on what is causing the foot drop.' },
+      { q: 'Can I wear my brace with normal shoes?', a: "Often you can. Many people need a slightly wider or bigger shoe with a removable insole. Bring your usual shoes and we'll check them with you." },
+      { q: 'How long do custom foot orthotics last?', a: "Many last a year or more, depending on the material, your weight and how active you are. Bring them in if they crack, wear through or your pain comes back." },
+    ],
+  },
+  {
+    id: 'children',
+    title: 'Children',
+    items: [
+      { q: 'How often will my child need a new brace?', a: "Most children need a new brace about once a year, sometimes sooner during a growth spurt. We'll check the fit every few months." },
+      { q: 'Can my child wear their brace at school?', a: 'Yes. Most children do. We will give you a wearing plan that you can share with the school.' },
+      { q: 'Does toe walking always need a brace?', a: 'No. Many young children grow out of it. If it carries on, a doctor or physiotherapist should check first. A brace may then be part of the plan.' },
+    ],
+  },
+  {
+    id: 'aftercare',
+    title: 'Aftercare and repairs',
+    items: [
+      { q: 'What should I do if my device rubs or hurts?', a: "Take it off, check your skin and call us. Small fit problems are normal with a new device and are usually easy to fix. Please don't try to push through the pain." },
+      { q: 'Can you repair a device made somewhere else?', a: "Often, yes. Bring it in and we'll take a look. Sometimes a new strap, liner or socket is all that's needed." },
+      { q: 'How often should I come for a check-up?', a: 'It depends on the device and on you. Children usually need checks every few months. Adults often come once or twice a year, or sooner if something changes.' },
+    ],
+  },
+];
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: groups.flatMap((g) => g.items).map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}];
+---
+<Base
+  title="FAQ | Prosthetics, Braces & Orthotics Questions | AIM Rehab"
+  description="Answers to common questions about prosthetic legs and arms, AFO and KAFO braces, children's orthotics, foot orthotics, first visits and aftercare."
+  image={heroImg}
+  schema={schema}
+>
+  <PageHero
+    slot="hero"
+    title="Frequently asked questions"
+    intro="Simple answers to the questions we hear most. Can't find yours? Call us or send a message."
+    image={heroImg}
+    position="50% 25%"
+    crumbs={[{ label: 'FAQ' }]}
+  />
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <aside class="faq-nav">
+        <h2 style="font-size:22px;margin-bottom:14px">Topics</h2>
+        <ul class="side-links">
+          {groups.map((g) => <li><a href={`#${g.id}`}>{g.title}<Icon name="arrow-right" /></a></li>)}
+        </ul>
+        <div style="margin-top:22px;font-size:15px;line-height:1.6">
+          Still have a question?<br />
+          <a href={site.phoneHref} style="color:var(--teal);font-weight:600">{site.phone}</a>
+        </div>
+      </aside>
+      <div>
+        {groups.map((g) => (
+          <section class="faq-group reveal" id={g.id} aria-labelledby={`${g.id}-title`} style="scroll-margin-top:24px">
+            <h2 id={`${g.id}-title`}>{g.title}</h2>
+            <FaqAccordion items={g.items} id={g.id} />
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactBlock title="Ask us anything" />
+</Base>

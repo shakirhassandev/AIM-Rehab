@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import img from '../assets/images/child-walker-mobility-session.jpg';
+
+// These are the clinic's own promises, not patient reviews.
+// When you have real reviews (with the patient's permission), you can add them here.
+const slides = [
+  "We'll explain things in plain words. You'll know which device we suggest, why we suggest it and what happens next before anything is made.",
+  "If something rubs, hurts or just feels wrong, tell us. Small fit problems are normal with a new device, and sorting them out is part of our work.",
+  "Children grow fast. We check their braces often and plan ahead, so your child isn't left in a device that no longer fits.",
+];
+---
+<section class="section-sm" aria-labelledby="promise-title">
+  <div class="panel promise reveal">
+    <Icon name="sun" class="promise-ornament" />
+    <div class="container promise-grid">
+      <div data-quotes>
+        <span class="tag">Our Promise</span>
+        <h2 class="title" id="promise-title">What every patient can expect from us</h2>
+        <Icon name="quote" class="quote-ic" />
+        <div class="quote-slides" aria-live="polite">
+          {slides.map((s, i) => (
+            <blockquote class:list={['quote-slide', { 'is-active': i === 0 }]} style="margin:0" aria-hidden={i === 0 ? undefined : 'true'}>
+              <p>{s}</p>
+            </blockquote>
+          ))}
+        </div>
+        <div class="quote-foot">
+          <div class="quote-author">
+            <span class="avatar"><Icon name="logo" /></span>
+            <div>
+              <strong>The AIM Rehab Team</strong>
+              <small>Prosthetists &amp; Orthotists</small>
+            </div>
+          </div>
+          <div class="quote-nav">
+            <button type="button" aria-label="Previous promise" data-prev><Icon name="arrow-left" /></button>
+            <button type="button" aria-label="Next promise" data-next><Icon name="arrow-right" /></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="promise-media">
+        <div class="img">
+          <Image src={img} alt="Smiling child taking steps with a walker and leg braces, supported by a therapist" widths={[400, 640, 900]} sizes="(max-width: 1023px) 90vw, 460px" quality={75} style="object-position: 62% 50%" />
+        </div>
+        <div class="rail">
+          <span class="rail-text">Certified prosthetists<br />and orthotists</span>
+          <span class="rail-big">ISPO</span>
+          <Icon name="award" class="rail-ic" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quotes]').forEach((wrap) => {
+    const slides = Array.from(wrap.querySelectorAll<HTMLElement>('.quote-slide'));
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        s.classList.toggle('is-active', k === i);
+        if (k === i) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+      });
+    };
+    wrap.querySelector('[data-prev]')?.addEventListener('click', () => show(i - 1));
+    wrap.querySelector('[data-next]')?.addEventListener('click', () => show(i + 1));
+  });
+</script>

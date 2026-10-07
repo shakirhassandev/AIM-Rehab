@@ -1,0 +1,52 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Header from './Header.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+interface Crumb { label: string; href?: string }
+interface Props {
+  title: string;
+  intro?: string;
+  image: ImageMetadata;
+  crumbs: Crumb[];
+  position?: string;
+  meta?: { icon: string; text: string }[];
+}
+const { title, intro, image, crumbs, position = '50% 35%', meta } = Astro.props;
+const all = [{ label: 'Home', href: '/' }, ...crumbs];
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: all.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    item: new URL(c.href ?? Astro.url.pathname, site.url + '/').href,
+  })),
+};
+---
+<section class="page-hero" style={`--pos:${position}`}>
+  <div class="hero-media">
+    <Image src={image} alt="" widths={[640, 1024, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" quality={72} />
+  </div>
+  <Header />
+  <div class="page-hero-inner">
+    <nav aria-label="Breadcrumb">
+      <ol class="crumbs">
+        {all.map((c, i) => (
+          <li>{c.href && i < all.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+        ))}
+      </ol>
+    </nav>
+    <h1>{title}</h1>
+    {intro && <p>{intro}</p>}
+    {meta && (
+      <div class="page-meta">
+        {meta.map((m) => <span><Icon name={m.icon} />{m.text}</span>)}
+      </div>
+    )}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</section>

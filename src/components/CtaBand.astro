@@ -1,0 +1,16 @@
+---
+import Btn from './Btn.astro';
+interface Props { title: string; text?: string; href?: string; label?: string }
+const { title, text, href = '/contact/', label = 'Book a consultation' } = Astro.props;
+---
+<section class="section-sm">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>{title}</h2>
+        {text && <p>{text}</p>}
+      </div>
+      <Btn href={href} variant="light">{label}</Btn>
+    </div>
+  </div>
+</section>

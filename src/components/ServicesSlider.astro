@@ -1,0 +1,70 @@
+---
+import ServiceCard from './ServiceCard.astro';
+import { getServices } from '../lib/content';
+
+interface Props { tag?: string; title?: string }
+const { tag = 'Our Services', title = 'What we offer to help you move better' } = Astro.props;
+const services = await getServices();
+---
+<section class="section-sm" aria-labelledby="services-title">
+  <div class="panel shell reveal">
+    <div class="container">
+      <div class="head-center">
+        <span class="tag">{tag}</span>
+        <h2 class="title" id="services-title">{title}</h2>
+      </div>
+      <div class="slider" data-slider>
+        <div class="slider-track" data-track tabindex="0" aria-label="Services list, scroll sideways for more">
+          {services.map((s) => <ServiceCard service={s} />)}
+        </div>
+        <div class="slider-dots" data-dots></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const track = slider.querySelector<HTMLElement>('[data-track]')!;
+    const dotsWrap = slider.querySelector<HTMLElement>('[data-dots]')!;
+    const cards = Array.from(track.children) as HTMLElement[];
+    let pages = 0;
+    let timer: number | undefined;
+
+    const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth);
+    const perView = () => Math.max(1, Math.round(track.clientWidth / step()));
+    const current = () => Math.min(pages - 1, Math.round(track.scrollLeft / step()));
+
+    const build = () => {
+      pages = Math.max(1, cards.length - perView() + 1);
+      dotsWrap.innerHTML = '';
+      dotsWrap.hidden = pages < 2;
+      for (let i = 0; i < pages; i++) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Show slide ${i + 1}`);
+        b.addEventListener('click', () => { go(i); restart(); });
+        dotsWrap.appendChild(b);
+      }
+      sync();
+    };
+    const sync = () => {
+      const c = current();
+      dotsWrap.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i === c)));
+    };
+    const go = (i: number) => track.scrollTo({ left: i * step(), behavior: 'smooth' });
+    const restart = () => {
+      window.clearInterval(timer);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = window.setInterval(() => go((current() + 1) % pages), 5000);
+    };
+
+    track.addEventListener('scroll', () => window.requestAnimationFrame(sync), { passive: true });
+    slider.addEventListener('pointerenter', () => window.clearInterval(timer));
+    slider.addEventListener('pointerleave', restart);
+    slider.addEventListener('focusin', () => window.clearInterval(timer));
+    window.addEventListener('resize', build);
+    build();
+    restart();
+  });
+</script>

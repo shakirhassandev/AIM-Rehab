@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/custom-foot-orthotic-insoles.jpg';
+---
+<Base title="Privacy Policy | AIM Rehab" description="How AIM Rehab collects, uses and protects the personal information you share through our website, forms and appointments." image={heroImg}>
+  <PageHero slot="hero" title="Privacy Policy" intro="How we look after the information you share with us." image={heroImg} crumbs={[{ label: 'Privacy Policy' }]} />
+  <section class="section">
+    <div class="container">
+      <div class="content-card legal prose">
+        <p><em>Last updated: October 2026. Please review this page with your own legal or data adviser before launch.</em></p>
+        <h2>Who we are</h2>
+        <p>This website belongs to {site.name}, a prosthetic and orthotic clinic. You can reach us at <a href={`mailto:${site.email}`}>{site.email}</a> or {site.phone}.</p>
+        <h2>What information we collect</h2>
+        <p>We only collect the details you choose to give us, for example when you fill in our contact form, ask for a call back, email us or phone us. This can include:</p>
+        <ul>
+          <li>Your name, phone number and email address</li>
+          <li>The service you're interested in</li>
+          <li>Anything you write in your message, which may include health details</li>
+        </ul>
+        <h2>How we use it</h2>
+        <p>We use your details to reply to you, book and manage appointments, and provide your care. We don't sell your information, and we don't use it for advertising.</p>
+        <h2>Health information</h2>
+        <p>Health details are sensitive. Please only share what you're comfortable with in the contact form. We'll ask for anything else we need in person, at your appointment.</p>
+        <h2>How long we keep it</h2>
+        <p>We keep messages and records only as long as we need them to care for you and to meet any legal duties for health records.</p>
+        <h2>Cookies</h2>
+        <p>This website doesn't use advertising or tracking cookies. If we add tools like website analytics in future, we'll update this page.</p>
+        <h2>Your rights</h2>
+        <p>You can ask to see, correct or delete the personal information we hold about you. Just contact us using the details above.</p>
+      </div>
+    </div>
+  </section>
+</Base>

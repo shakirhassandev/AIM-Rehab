@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { site, nav } from '../data/site';
+import { getServices, serviceUrl } from '../lib/content';
+
+const services = await getServices();
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const socials = Object.entries(site.socials).filter(([, url]) => url);
+---
+<header class="site-header">
+  <a class="brand" href="/" aria-label={`${site.name} home`}>
+    <Icon name="logo" />
+    <span>{site.name}</span>
+  </a>
+
+  <nav aria-label="Main">
+    <ul class="nav-pill">
+      {nav.filter((n) => n.label !== 'FAQ').map((item) => (
+        <li>
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {item.label}
+            {item.children && <Icon name="chevron-down" />}
+          </a>
+          {item.children && (
+            <ul class="dropdown">
+              {services.map((s) => <li><a href={serviceUrl(s.id)}>{s.data.cardTitle}</a></li>)}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="header-end">
+    {socials.length > 0 ? (
+      <ul class="socials">
+        {socials.map(([name, url]) => (
+          <li><a href={url} target="_blank" rel="noopener" aria-label={`${site.name} on ${name}`}><Icon name={name} /></a></li>
+        ))}
+      </ul>
+    ) : (
+      <a class="header-call" href={site.phoneHref}>
+        <span class="ic"><Icon name="phone" /></span>
+        <span>{site.phone}</span>
+      </a>
+    )}
+  </div>
+
+  <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" data-menu-open>
+    <Icon name="menu" />
+  </button>
+</header>

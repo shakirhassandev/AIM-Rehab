@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/prosthetic-leg-in-clinic.jpg';
+---
+<Base title="Terms & Conditions | AIM Rehab" description="The terms for using the AIM Rehab website, including how to read the health information on our pages and how bookings work." image={heroImg}>
+  <PageHero slot="hero" title="Terms & Conditions" intro="The simple rules for using this website." image={heroImg} crumbs={[{ label: 'Terms & Conditions' }]} />
+  <section class="section">
+    <div class="container">
+      <div class="content-card legal prose">
+        <p><em>Last updated: October 2026. Please review this page with your own legal adviser before launch.</em></p>
+        <h2>Using this website</h2>
+        <p>By using this website, you agree to these terms. If you don't agree, please don't use the site.</p>
+        <h2>Health information is general only</h2>
+        <p>The articles, service pages and FAQs on this site are for general information. They are not medical advice and can't replace a check by a doctor, physiotherapist, prosthetist or orthotist who knows your situation. Every person is different, and results with any device vary.</p>
+        <h2>In an emergency</h2>
+        <p>This website and our contact form are not for emergencies. If you need urgent medical help, contact your local emergency number or go to the nearest hospital.</p>
+        <h2>Appointments</h2>
+        <p>Sending a message through our website doesn't confirm a booking. We'll contact you to agree a time. If you can't make an appointment, please let us know as early as you can.</p>
+        <h2>Content and images</h2>
+        <p>The text, design and images on this site belong to {site.name} or are used with permission. Please don't copy them without asking us first.</p>
+        <h2>Links to other websites</h2>
+        <p>We may link to other websites. We're not responsible for their content or how they handle your information.</p>
+        <h2>Contact</h2>
+        <p>Questions about these terms? Email <a href={`mailto:${site.email}`}>{site.email}</a> or call {site.phone}.</p>
+      </div>
+    </div>
+  </section>
+</Base>

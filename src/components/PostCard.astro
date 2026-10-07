@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { postUrl } from '../lib/content';
+
+interface Props { post: CollectionEntry<'blog'>; headingLevel?: 'h2' | 'h3' }
+const { post, headingLevel = 'h3' } = Astro.props;
+const { data } = post;
+const H = headingLevel;
+const day = String(data.date.getUTCDate()).padStart(2, '0');
+const month = data.date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+---
+<article class="post-card" data-category={data.category}>
+  <div class="post-img">
+    <Image src={data.image} alt={data.imageAlt} widths={[400, 640, 800]} sizes="(max-width: 767px) 92vw, (max-width: 1023px) 46vw, 400px" quality={74} />
+    <time class="date-box" datetime={data.date.toISOString().slice(0, 10)}><b>{day}</b><small>{month}</small></time>
+  </div>
+  <div class="post-body">
+    <span class="post-cat">{data.category}</span>
+    <H><a href={postUrl(post.id)}>{data.title}</a></H>
+    <p>{data.excerpt}</p>
+    <span class="post-more" aria-hidden="true">Read More <span class="ic"><Icon name="arrow-up-right" /></span></span>
+  </div>
+</article>

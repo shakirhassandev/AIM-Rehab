@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import { site, addressLine } from '../data/site';
+import { getServices, serviceUrl } from '../lib/content';
+
+const services = await getServices();
+const socials = Object.entries(site.socials).filter(([, url]) => url);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer panel">
+  <div class="info-strip">
+    <div class="container info-cols">
+      <div>
+        <h2>Address</h2>
+        <p>{site.address.street}<br />{[site.address.city, site.address.region].filter(Boolean).join(', ')}</p>
+      </div>
+      <div>
+        <h2>Opening Hours</h2>
+        <p>{site.hours.map((h) => <>{h.days}: {h.time}<br /></>)}</p>
+      </div>
+      <div>
+        <h2>Contact Us</h2>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={site.phoneHref}>{site.phone}</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div class="container">
+      <div class="footer-cols">
+        <div>
+          <a class="brand" href="/"><Icon name="logo" /><span>{site.name}</span></a>
+          <p>AIM Rehab is a prosthetic and orthotic clinic. We make and fit artificial limbs, braces and foot orthotics for adults and children.</p>
+          {socials.length > 0 && (
+            <ul class="footer-social">
+              {socials.map(([name, url]) => (
+                <li><a href={url} target="_blank" rel="noopener" aria-label={`${site.name} on ${name}`}><Icon name={name} /></a></li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <nav aria-label="Services">
+          <h2>Our Services</h2>
+          <ul class="footer-links">
+            {services.map((s) => <li><a href={serviceUrl(s.id)}>{s.data.cardTitle}</a></li>)}
+          </ul>
+        </nav>
+        <div>
+          <h2>Contact</h2>
+          <p>Call or message us to book a visit or ask a question about your device.</p>
+          <ul class="footer-contact">
+            <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><Icon name="pin" /><span>{addressLine}</span></li>
+            <li><Icon name="phone" /><a href={site.phoneHref}>{site.phone}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Get a Call Back</h2>
+          <p>Leave your number and our team will call you back to answer questions or book a visit.</p>
+          <form class="callback" data-callback>
+            <label class="sr-only" for="callback-phone">Your phone number</label>
+            <input id="callback-phone" name="phone" type="tel" placeholder="Your phone number" required autocomplete="tel" />
+            <button type="submit" aria-label="Request a call back"><Icon name="send" /></button>
+          </form>
+          <p class="callback-note" aria-live="polite" data-callback-note></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p style="margin:0">&copy; {year} {site.name}. All rights reserved.</p>
+        <ul>
+          <li><a href="/terms/">Terms &amp; Conditions</a></li>
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script is:inline define:vars={{ email: site.email, endpoint: site.formEndpoint, clinic: site.name }}>
+  document.querySelectorAll('[data-callback]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = form.phone.value.trim();
+      const note = document.querySelector('[data-callback-note]');
+      if (endpoint) {
+        try {
+          await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+          note.textContent = 'Thanks. We will call you back soon.';
+          form.reset();
+        } catch { note.textContent = 'Sorry, that did not send. Please call us instead.'; }
+        return;
+      }
+      const body = encodeURIComponent(`Please call me back on ${phone}.`);
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent('Call back request for ' + clinic)}&body=${body}`;
+      note.textContent = 'Your email app should open now. Just press send.';
+    });
+  });
+</script>

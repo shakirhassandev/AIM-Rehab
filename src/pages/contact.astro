@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { site, addressLine } from '../data/site';
+import heroImg from '../assets/images/child-walker-mobility-session.jpg';
+---
+<Base
+  title="Contact AIM Rehab | Book a Prosthetic or Orthotic Visit"
+  description="Contact AIM Rehab to book an assessment for a prosthetic limb, leg brace, spinal brace, children's orthotics or custom foot orthotics."
+  image={heroImg}
+>
+  <PageHero
+    slot="hero"
+    title="Contact us and book a visit"
+    intro="Tell us a little about what you need and we'll get back to you to arrange a time."
+    image={heroImg}
+    position="55% 40%"
+    crumbs={[{ label: 'Contact' }]}
+  />
+
+  <section class="section-sm" style="padding-top:var(--section)">
+    <div class="container info-cards reveal">
+      <div class="info-card">
+        <span class="feature-ic"><Icon name="phone" /></span>
+        <h2>Call Us</h2>
+        <p><a href={site.phoneHref}>{site.phone}</a></p>
+      </div>
+      <div class="info-card">
+        <span class="feature-ic"><Icon name="mail" /></span>
+        <h2>Email Us</h2>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+      <div class="info-card">
+        <span class="feature-ic"><Icon name="pin" /></span>
+        <h2>Visit Us</h2>
+        <p>{site.mapUrl ? <a href={site.mapUrl} target="_blank" rel="noopener">{addressLine}</a> : addressLine}</p>
+      </div>
+      <div class="info-card">
+        <span class="feature-ic"><Icon name="clock" /></span>
+        <h2>Opening Hours</h2>
+        <p>{site.hours.map((h) => <>{h.days}: {h.time}<br /></>)}</p>
+      </div>
+    </div>
+  </section>
+
+  <ContactBlock title="Send us a message" />
+
+  <section class="section-sm">
+    <div class="container-sm reveal">
+      <div class="head-center" style="margin-bottom:30px">
+        <span class="tag">Good To Know</span>
+        <h2 class="title">Before your visit</h2>
+      </div>
+      <div class="prose" style="max-width:780px;margin-inline:auto">
+        <ul>
+          <li>Bring any doctor's letters, scan reports and a list of your medicines.</li>
+          <li>Bring the shoes you wear most and any device you use now.</li>
+          <li>Wear loose clothes so we can easily see the area we need to check.</li>
+          <li>For children, please bring a parent or carer and a favorite toy or snack.</li>
+        </ul>
+        <p>Want more detail? Read <a href="/blog/first-visit-prosthetist-orthotist/">how to prepare for your first visit</a> or browse our <a href="/faq/">FAQ</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

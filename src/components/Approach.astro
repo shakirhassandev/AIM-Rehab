@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import Btn from './Btn.astro';
+import bg from '../assets/images/bionic-prosthetic-arm.jpg';
+
+const bars = [
+  { pct: 25, label: 'Assess' },
+  { pct: 50, label: 'Measure' },
+  { pct: 75, label: 'Fit' },
+  { pct: 100, label: 'Follow up' },
+];
+---
+<section class="section-sm" aria-labelledby="approach-title">
+  <div class="panel approach reveal">
+    <Image src={bg} alt="" widths={[800, 1400, 2000]} sizes="100vw" quality={60} />
+    <div class="container approach-grid">
+      <div>
+        <span class="tag tag-dark">Our Approach</span>
+        <h2 class="title" id="approach-title">We stay with you long after the fitting</h2>
+        <p>A new limb or brace rarely feels perfect on day one. Your skin settles, your muscles get stronger and you start using the device in new ways. That's normal.</p>
+        <p>So we don't stop at handover. We check the fit, make small changes and help you get used to it, one visit at a time. The chart shows how each step builds on the last.</p>
+        <Btn href="/contact/" variant="light">Book a consultation</Btn>
+      </div>
+      <div>
+        <div class="bars" role="img" aria-label="Care progress: assessment 25 percent, measuring 50 percent, fitting 75 percent, follow-up 100 percent">
+          {bars.map((b) => (
+            <div class="bar-col">
+              <div class="pill">
+                <div class="pill-fill" style={`--h:${b.pct}%`}><span class="pill-label">{b.pct}%</span></div>
+              </div>
+              <span>{b.label}</span>
+            </div>
+          ))}
+        </div>
+        <p class="bars-caption">How your care moves forward</p>
+      </div>
+    </div>
+  </div>
+</section>

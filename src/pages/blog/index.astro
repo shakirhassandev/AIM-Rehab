@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PostCard from '../../components/PostCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site } from '../../data/site';
+import { getPosts, postUrl } from '../../lib/content';
+import heroImg from '../../assets/images/prosthetic-leg-in-clinic.jpg';
+
+const posts = await getPosts();
+const categories = [...new Set(posts.map((p) => p.data.category))];
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: `${site.name} Blog`,
+  url: `${site.url}/blog/`,
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: new URL(postUrl(p.id), site.url + '/').href,
+    datePublished: p.data.date.toISOString(),
+  })),
+}];
+---
+<Base
+  title="Prosthetics & Orthotics Blog | Guides and Tips | AIM Rehab"
+  description="Simple guides on prosthetic legs and arms, AFO and KAFO braces, children's orthotics and foot orthotics, written by the AIM Rehab team."
+  image={heroImg}
+  schema={schema}
+>
+  <PageHero
+    slot="hero"
+    title="Guides and tips from our clinic"
+    intro="Plain-English answers to the questions our patients ask most, about artificial limbs, braces, insoles and daily care."
+    image={heroImg}
+    position="50% 45%"
+    crumbs={[{ label: 'Blog' }]}
+  />
+
+  <section class="section" aria-label="Articles">
+    <div class="container">
+      <div class="filter-bar" role="group" aria-label="Filter articles by topic" data-filter>
+        <button type="button" aria-pressed="true" data-cat="all">All topics</button>
+        {categories.map((c) => <button type="button" aria-pressed="false" data-cat={c}>{c}</button>)}
+      </div>
+      <div class="blog-grid" data-posts>
+        {posts.map((p) => <PostCard post={p} headingLevel="h2" />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Have a question we haven't answered?" text="Our team is happy to help. Call us or send a message and we'll get back to you." label="Contact us" />
+</Base>
+
+<script>
+  const bar = document.querySelector('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-posts] .post-card');
+  bar?.querySelectorAll<HTMLButtonElement>('button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      bar.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      cards.forEach((c) => { c.hidden = cat !== 'all' && c.dataset.category !== cat; });
+    });
+  });
+</script>

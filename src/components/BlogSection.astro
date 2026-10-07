@@ -1,0 +1,21 @@
+---
+import PostCard from './PostCard.astro';
+import Btn from './Btn.astro';
+import { getPosts } from '../lib/content';
+
+interface Props { exclude?: string; title?: string; tag?: string; showAll?: boolean }
+const { exclude, title = 'Latest tips and guides from our clinic', tag = 'Our Blog', showAll = true } = Astro.props;
+const posts = (await getPosts()).filter((p) => p.id !== exclude).slice(0, 3);
+---
+<section class="section" aria-labelledby="blog-title">
+  <div class="container">
+    <div class="head-center reveal">
+      <span class="tag">{tag}</span>
+      <h2 class="title" id="blog-title">{title}</h2>
+    </div>
+    <div class="blog-grid reveal">
+      {posts.map((p) => <PostCard post={p} />)}
+    </div>
+    {showAll && <div class="center reveal" style="margin-top:48px"><Btn href="/blog/" variant="outline">View all articles</Btn></div>}
+  </div>
+</section>

@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import AboutIntro from '../components/AboutIntro.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import Approach from '../components/Approach.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import Icon from '../components/Icon.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import heroImg from '../assets/images/upper-limb-prosthetic-consultation.jpg';
+
+const values = [
+  { icon: 'chat', title: 'Plain talk', text: "We explain your options in everyday words. You'll always know what we suggest and why, before anything is made." },
+  { icon: 'ruler', title: 'Made to measure', text: 'Your body is not a standard size, so your device should not be either. We build each one to your shape.' },
+  { icon: 'heart', title: 'Care that continues', text: "Bodies change and children grow. We keep checking the fit long after the first day, so it keeps working for you." },
+];
+---
+<Base
+  title="About AIM Rehab | Prosthetic & Orthotic Clinic"
+  description="AIM Rehab is a prosthetic and orthotic clinic run by ISPO certified specialists. Learn how we assess, make and fit artificial limbs, braces and insoles."
+  image={heroImg}
+>
+  <PageHero
+    slot="hero"
+    title="About AIM Rehab"
+    intro="We're a prosthetic and orthotic clinic that helps adults and children move with more comfort and confidence."
+    image={heroImg}
+    position="40% 40%"
+    crumbs={[{ label: 'About' }]}
+  />
+
+  <AboutIntro showButton={false} />
+
+  <section class="section-sm" aria-labelledby="story-title">
+    <div class="container-sm reveal">
+      <div class="head-center">
+        <span class="tag">Why It Matters</span>
+        <h2 class="title" id="story-title">Why fit matters so much to us</h2>
+      </div>
+      <div class="prose" style="max-width:820px;margin-inline:auto">
+        <p>Many people who need an artificial limb or a brace end up with a device that doesn't quite fit. It rubs, it feels heavy or nobody showed them how to use it properly. So it ends up in a cupboard.</p>
+        <p>At AIM Rehab, we believe the fitting is only half the job. The other half is listening, teaching and coming back to check. Our certified prosthetists and orthotists work this way with every patient.</p>
+        <p>We make and fit prosthetic legs and arms, AFO, KAFO and HKAFO leg braces, spinal and fracture braces, children's orthotics and custom foot orthotics. Every device is made for one person, and we stay in touch as that person's needs change.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" aria-labelledby="values-title">
+    <div class="container">
+      <div class="head-center reveal">
+        <span class="tag">What We Believe</span>
+        <h2 class="title" id="values-title">Three things we never skip</h2>
+      </div>
+      <div class="values reveal">
+        {values.map((v) => (
+          <div class="value">
+            <span class="feature-ic"><Icon name={v.icon} /></span>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <WhyChoose />
+  <Approach />
+  <TeamGrid />
+  <ContactBlock />
+</Base>

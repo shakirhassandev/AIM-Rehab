@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import Btn from '../components/Btn.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { site } from '../data/site';
+import { team } from '../data/team';
+import heroImg from '../assets/images/lower-limb-prosthetic-fitting.jpg';
+
+const schema = team.map((m) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: m.name,
+  jobTitle: m.role,
+  worksFor: { '@id': `${site.url}/#clinic` },
+  url: `${site.url}/team/#${m.id}`,
+  knowsAbout: m.focus,
+}));
+---
+<Base
+  title="Meet Our ISPO Certified Prosthetists & Orthotists | AIM Rehab"
+  description="Meet Ali Hassan and Khurram Niazi, the ISPO certified prosthetists and orthotists at AIM Rehab. Learn about their training and the care they focus on."
+  image={team[0].image}
+  schema={schema}
+>
+  <PageHero
+    slot="hero"
+    title="Meet the specialists behind your care"
+    intro="Our prosthetists and orthotists are ISPO certified and trained to make and fit both artificial limbs and braces."
+    image={heroImg}
+    position="50% 45%"
+    crumbs={[{ label: 'Team' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      {team.map((m) => (
+        <article class="profile reveal" id={m.id} aria-labelledby={`${m.id}-name`}>
+          <div class="profile-img">
+            <Image src={m.image} alt={m.alt} widths={[420, 640, 840]} sizes="(max-width: 1023px) 92vw, 420px" quality={80} />
+          </div>
+          <div class="profile-body">
+            <span class="tag">{m.badge}</span>
+            <h2 id={`${m.id}-name`}>{m.name}</h2>
+            <p class="profile-role">{m.role}</p>
+            {m.bio.map((p) => <p>{p}</p>)}
+            <ul class="creds">
+              {m.creds.map((c) => (
+                <li>
+                  <span class="ic"><Icon name={c.icon} /></span>
+                  <span><strong>{c.title}</strong>{c.text}</span>
+                </li>
+              ))}
+            </ul>
+            <ul class="chips" aria-label="Areas of focus">
+              {m.focus.map((f) => <li>{f}</li>)}
+            </ul>
+            <div style="margin-top:30px"><Btn href="/contact/">Book with {m.name.split(' ')[0]}</Btn></div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <ContactBlock title="Book a visit with our team" />
+</Base>

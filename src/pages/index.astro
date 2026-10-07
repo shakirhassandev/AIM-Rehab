@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Icon from '../components/Icon.astro';
+import Btn from '../components/Btn.astro';
+import AboutIntro from '../components/AboutIntro.astro';
+import ServicesSlider from '../components/ServicesSlider.astro';
+import WhyChoose from '../components/WhyChoose.astro';
+import Approach from '../components/Approach.astro';
+import Pathways from '../components/Pathways.astro';
+import PromiseSection from '../components/Promise.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import BlogSection from '../components/BlogSection.astro';
+import { site } from '../data/site';
+import hero from '../assets/images/hero-prosthetic-leg-fitting.jpg';
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: `${site.url}/`,
+}];
+---
+<Base
+  title="AIM Rehab | Prosthetic & Orthotic Clinic for Adults and Kids"
+  description="Custom prosthetic legs and arms, AFO and KAFO braces, spinal braces and foot orthotics. AIM Rehab assesses, fits and follows up with adults and children."
+  image={hero}
+  imageAlt="Prosthetist fitting a prosthetic leg for a patient at AIM Rehab"
+  schema={schema}
+>
+  <section class="hero" slot="hero" aria-labelledby="hero-title">
+    <div class="hero-media">
+      <Image src={hero} alt="Prosthetist kneeling to adjust a below-knee prosthetic leg for a smiling patient" widths={[640, 1024, 1440, 1920, 2400]} sizes="100vw" loading="eager" fetchpriority="high" quality={74} />
+    </div>
+    <Header />
+    <div class="hero-body">
+      <div class="hero-content">
+        <p class="hero-badge">
+          <span class="stars" aria-hidden="true"><Icon name="award" /></span>
+          ISPO certified prosthetists &amp; orthotists
+        </p>
+        <h1 id="hero-title">Prosthetic &amp; Orthotic Care Made to Fit You</h1>
+        <p class="hero-lead">Custom artificial limbs, braces and insoles for adults and children. We assess, measure, fit and follow up, so your device feels right in everyday life.</p>
+        <div class="hero-actions">
+          <Btn href="/contact/" variant="light">Book a consultation</Btn>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bar">
+      <div><strong>{site.phone}</strong><a href={site.phoneHref}>Give Us a Call</a></div>
+      <div>{site.hours.map((h) => <strong>{h.days}: {h.time}</strong>)}</div>
+      <div><strong>{site.address.street}</strong><span>{site.address.city}</span></div>
+    </div>
+  </section>
+
+  <AboutIntro />
+  <ServicesSlider />
+  <WhyChoose />
+  <Approach />
+  <Pathways />
+  <PromiseSection />
+  <TeamGrid />
+  <ContactBlock />
+  <BlogSection />
+</Base>

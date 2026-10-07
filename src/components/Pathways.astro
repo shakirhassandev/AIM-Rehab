@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+import Btn from './Btn.astro';
+
+const plans = [
+  {
+    name: 'First Visit', step: 'Step 01', big: 'Assess', sub: 'Find out what will really help you',
+    items: ['Talk about your goals and daily life', 'Check your limb, joints and walking', 'Take measurements', 'Explain your options in plain words', 'Answer all your questions'],
+    cta: 'Book a visit', href: '/contact/', featured: false,
+  },
+  {
+    name: 'Custom Device', step: 'Step 02', big: 'Build', sub: 'Made to fit your body, not off a shelf',
+    items: ['Cast or digital measurements', 'Device built to your shape', 'Trial fitting before it is finished', 'Alignment checks and changes', 'Training on how to use it'],
+    cta: 'See our services', href: '/services/', featured: true,
+  },
+  {
+    name: 'Aftercare', step: 'Step 03', big: 'Review', sub: 'Help once you start using it',
+    items: ['Comfort and skin checks', 'Fit changes as your body changes', 'Growth checks for children', 'Advice on care and repairs', 'Planning for your next device'],
+    cta: 'Book a check-up', href: '/contact/', featured: false,
+  },
+];
+---
+<section class="section" aria-labelledby="pathways-title">
+  <div class="container">
+    <div class="head-center reveal">
+      <span class="tag">How It Works</span>
+      <h2 class="title" id="pathways-title">Clear care steps with no surprises</h2>
+    </div>
+    <div class="plans reveal">
+      {plans.map((p) => (
+        <article class:list={['plan', { featured: p.featured }]}>
+          <div class="plan-head">
+            <h3>{p.name}</h3>
+            <span class="pill-tag">{p.step}</span>
+          </div>
+          <p class="big">{p.big}</p>
+          <p class="sub">{p.sub}</p>
+          <ul class="plan-list">
+            {p.items.map((it) => <li><Icon name="check-circle" />{it}</li>)}
+          </ul>
+          <Btn href={p.href} variant={p.featured ? 'light' : 'primary'}>{p.cta}</Btn>
+        </article>
+      ))}
+    </div>
+    <ul class="plan-notes reveal">
+      <li><Icon name="check-circle" />We explain every option first</li>
+      <li><Icon name="check-circle" />Devices made to measure</li>
+      <li><Icon name="check-circle" />Support after fitting</li>
+    </ul>
+  </div>
+</section>

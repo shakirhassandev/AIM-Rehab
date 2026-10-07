@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import BlogSection from '../../components/BlogSection.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import { site } from '../../data/site';
+import { getPosts, getServices, postUrl, serviceUrl, formatDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+const relatedServices = (await getServices()).filter((s) => data.related.includes(s.id));
+const pageUrl = new URL(postUrl(post.id), site.url + '/').href;
+
+const schema: Record<string, unknown>[] = [{
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
+  dateModified: data.date.toISOString(),
+  mainEntityOfPage: pageUrl,
+  author: { '@type': 'Organization', name: `${site.name} Team`, url: `${site.url}/team/` },
+  publisher: { '@id': `${site.url}/#clinic` },
+  articleSection: data.category,
+}];
+if (data.faqs.length) {
+  schema.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  });
+}
+---
+<Base title={data.metaTitle} description={data.description} image={data.image} imageAlt={data.imageAlt} type="article" published={data.date} schema={schema}>
+  <PageHero
+    slot="hero"
+    title={data.title}
+    image={data.image}
+    crumbs={[{ label: 'Blog', href: '/blog/' }, { label: data.title }]}
+    meta={[
+      { icon: 'calendar', text: formatDate(data.date) },
+      { icon: 'clock', text: `${data.readTime} min read` },
+      { icon: 'book', text: data.category },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container content-layout">
+      <article class="content-card">
+        <div class="feature-img">
+          <Image src={data.image} alt={data.imageAlt} widths={[640, 960, 1300]} sizes="(max-width: 1023px) 94vw, 820px" quality={75} />
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+
+        {data.faqs.length > 0 && (
+          <>
+            <h2 class="title" style="font-size:clamp(26px,2.2vw,32px);margin-top:44px">Quick questions</h2>
+            <FaqAccordion items={data.faqs} id="post-faq" />
+          </>
+        )}
+
+        <div class="author-box">
+          <span class="avatar"><Icon name="logo" /></span>
+          <div>
+            <strong>Written by the AIM Rehab team</strong>
+            <p>Our certified prosthetists and orthotists write these guides to answer the questions patients ask us most. <a href="/team/" style="color:var(--teal);text-decoration:underline">Meet the team</a>.</p>
+          </div>
+        </div>
+      </article>
+
+      <aside class="sidebar">
+        {toc.length > 0 && (
+          <nav class="side-card" aria-label="In this article">
+            <h2>In this article</h2>
+            <ol class="toc">
+              {toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            </ol>
+          </nav>
+        )}
+        {relatedServices.length > 0 && (
+          <div class="side-card">
+            <h2>Related services</h2>
+            <ul class="side-links">
+              {relatedServices.map((s) => <li><a href={serviceUrl(s.id)}>{s.data.cardTitle}<Icon name="arrow-right" /></a></li>)}
+            </ul>
+          </div>
+        )}
+        <div class="side-card side-cta">
+          <h2>Talk to our team</h2>
+          <p>Have a question about your own device? We're happy to help.</p>
+          <a class="phone" href={site.phoneHref}><span class="ic"><Icon name="phone" /></span>{site.phone}</a>
+          <a class="btn btn-light" href="#book">Book a consultation<span class="btn-ic"><Icon name="arrow-up-right" /></span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <BlogSection exclude={post.id} tag="Keep Reading" title="More guides you might like" />
+  <ContactBlock />
+</Base>

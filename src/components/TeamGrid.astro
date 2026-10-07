@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import { team } from '../data/team';
+
+interface Props { title?: string; tag?: string }
+const { title = 'The specialists guiding your rehab', tag = 'Our Team' } = Astro.props;
+---
+<section class="section" aria-labelledby="team-title">
+  <div class="container">
+    <div class="head-center reveal">
+      <span class="tag">{tag}</span>
+      <h2 class="title" id="team-title">{title}</h2>
+    </div>
+    <div class="team-grid reveal">
+      {team.map((m) => (
+        <article class="team-card">
+          <Image src={m.image} alt={m.alt} widths={[400, 640, 800]} sizes="(max-width: 767px) 92vw, 400px" quality={78} />
+          <div class="team-cap">
+            <h3><a href={`/team/#${m.id}`}>{m.name}</a></h3>
+            <p>{m.role} · {m.badge}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

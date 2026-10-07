@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import img from '../assets/images/spinal-brace-fitting.jpg';
+
+const items = [
+  {
+    q: 'We listen before we measure',
+    a: 'Your first visit is mostly a conversation. We ask about your goals, your daily routine and what has been hard. Then we check your limb, your joints and the way you walk or use your hands.',
+  },
+  {
+    q: 'Every device is made for your body',
+    a: "We take a cast or careful measurements and build the device to that shape. You try it before it's finished, so we can fix the fit early instead of after you've gone home.",
+  },
+  {
+    q: 'We show you how to use it',
+    a: 'A new limb or brace takes practice. We teach you how to put it on, how to care for your skin and how to build up the hours you wear it, step by step.',
+  },
+];
+
+const checks = [
+  'Lower limb prosthetics', 'Upper limb prosthetics', 'AFO and KAFO braces',
+  'Spinal bracing', 'Pediatric orthotics', 'Custom foot orthotics',
+];
+---
+<section class="section" aria-labelledby="why-title">
+  <div class="container why-grid">
+    <div class="reveal">
+      <span class="tag">Why Choose Us</span>
+      <h2 class="title" id="why-title">Finding it hard to walk, grip or stay comfortable?</h2>
+      <p class="lead">Living with limb loss or a weak joint is tiring. The right device can make daily life easier, but only if it fits well and you know how to use it. That's where we put our effort.</p>
+      <div class="accordion">
+        {items.map((item, i) => (
+          <div class:list={['acc-item', { 'is-open': i === 0 }]}>
+            <h3 style="margin:0">
+              <button class="acc-btn" type="button" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`why-${i}`} id={`why-btn-${i}`}>
+                <span>{String(i + 1).padStart(2, '0')}. {item.q}</span>
+                <Icon name="chevron-down" class="acc-ic" />
+              </button>
+            </h3>
+            <div class="acc-panel" id={`why-${i}`} role="region" aria-labelledby={`why-btn-${i}`}>
+              <div><p>{item.a}</p></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="why-media reveal">
+      <Image src={img} alt="Orthotist adjusting a spinal brace on a smiling woman in the clinic" widths={[480, 720, 1000]} sizes="(max-width: 1023px) 94vw, 640px" quality={75} style="object-position: 50% 20%" />
+      <div class="why-overlay">
+        <h3>We help adults and children move better</h3>
+        <ul class="why-checks">
+          {checks.map((c) => <li><Icon name="check" />{c}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stats reveal" data-counters>
+      <div class="stat"><strong data-count="3" data-suffix="+">3+</strong><span>Years of clinical experience</span></div>
+      <div class="stat"><strong data-count="2">2</strong><span>ISPO certified specialists</span></div>
+      <div class="stat"><strong data-count="6">6</strong><span>Core services</span></div>
+      <div class="stat"><strong data-count="4">4</strong><span>Steps from first visit to aftercare</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const wrap = document.querySelector('[data-counters]');
+  if (wrap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const nums = wrap.querySelectorAll<HTMLElement>('[data-count]');
+    nums.forEach((n) => (n.textContent = '0'));
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      nums.forEach((n) => {
+        const end = Number(n.dataset.count);
+        const suffix = n.dataset.suffix ?? '';
+        const start = performance.now();
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - start) / 1400);
+          n.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + (p === 1 ? suffix : '');
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.4 });
+    io.observe(wrap);
+  }
+</script>

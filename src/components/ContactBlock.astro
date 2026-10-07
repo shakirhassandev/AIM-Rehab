@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+import { getServices } from '../lib/content';
+import img from '../assets/images/upper-limb-prosthetic-consultation.jpg';
+
+interface Props { title?: string; preselect?: string }
+const { title = 'Book an appointment today!', preselect } = Astro.props;
+const services = await getServices();
+---
+<section class="section-sm" aria-labelledby="contact-title" id="book">
+  <div class="panel contact-grid reveal">
+    <div class="contact-photo">
+      <Image src={img} alt="AIM Rehab prosthetist talking with a patient during a consultation" widths={[480, 800, 1100]} sizes="(max-width: 1023px) 96vw, 50vw" quality={72} style="object-position: 30% 40%" />
+      <div class="contact-photo-copy">
+        <h2><a href="/faq/">AIM Rehab questions answered.</a></h2>
+        <small>Drop us an email</small>
+        <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+
+    <form class="contact-form" data-contact-form action={site.formEndpoint || undefined} method="post">
+      <span class="tag tag-dark">Contact Us</span>
+      <h2 id="contact-title">{title}</h2>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-name">Full Name</label>
+          <input id="cf-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="cf-phone">Phone No</label>
+          <input id="cf-phone" name="phone" type="tel" required autocomplete="tel" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-email">Email Address</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="cf-service">Service</label>
+          <select id="cf-service" name="service">
+            <option value="">Not sure yet</option>
+            {services.map((s) => <option value={s.data.cardTitle} selected={preselect === s.id}>{s.data.cardTitle}</option>)}
+            <option value="Device check or repair">Device check or repair</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-message">Your Message</label>
+        <textarea id="cf-message" name="message" rows="4"></textarea>
+      </div>
+      <button class="submit-btn" type="submit">Send Us Message</button>
+      <p class="form-note" aria-live="polite" data-form-note></p>
+    </form>
+  </div>
+</section>
+
+<script is:inline define:vars={{ email: site.email, endpoint: site.formEndpoint, clinic: site.name }}>
+  document.querySelectorAll('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const note = form.querySelector('[data-form-note]');
+      const data = new FormData(form);
+      if (endpoint) {
+        try {
+          const res = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
+          if (!res.ok) throw new Error();
+          note.textContent = 'Thank you. Your message is on its way and we will get back to you soon.';
+          form.reset();
+        } catch { note.textContent = 'Sorry, something went wrong. Please call or email us instead.'; }
+        return;
+      }
+      const lines = [
+        `Name: ${data.get('name')}`,
+        `Phone: ${data.get('phone')}`,
+        `Email: ${data.get('email') || 'Not given'}`,
+        `Service: ${data.get('service') || 'Not sure yet'}`,
+        '',
+        String(data.get('message') || ''),
+      ];
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent('Appointment request for ' + clinic)}&body=${encodeURIComponent(lines.join('\n'))}`;
+      note.textContent = 'Your email app should open with your message filled in. Just press send.';
+    });
+  });
+</script>

@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+
+interface Props { items: { q: string; a: string }[]; id: string; headingLevel?: 'h2' | 'h3' }
+const { items, id, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<div class="accordion faq-list">
+  {items.map((item, i) => (
+    <div class:list={['acc-item', { 'is-open': i === 0 }]}>
+      <H style="margin:0">
+        <button class="acc-btn" type="button" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`${id}-${i}`} id={`${id}-btn-${i}`}>
+          <span>{item.q}</span>
+          <Icon name="chevron-down" class="acc-ic" />
+        </button>
+      </H>
+      <div class="acc-panel" id={`${id}-${i}`} role="region" aria-labelledby={`${id}-btn-${i}`}>
+        <div>{item.a.split('\n\n').map((para) => <p>{para}</p>)}</div>
+      </div>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Icon from '../../components/Icon.astro';
+import Pathways from '../../components/Pathways.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import Btn from '../../components/Btn.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import { site } from '../../data/site';
+import { getServices, serviceUrl } from '../../lib/content';
+import heroImg from '../../assets/images/kafo-knee-brace-fitting.jpg';
+
+const services = await getServices();
+
+const steps = [
+  { icon: 'chat', title: 'Talk and assess', text: 'We learn about your goals and check your body, your skin and the way you move.' },
+  { icon: 'ruler', title: 'Measure and cast', text: 'We take a cast or careful measurements, so your device matches your shape.' },
+  { icon: 'sliders', title: 'Fit and adjust', text: 'You try the device and we fine-tune the fit, the angles and the straps.' },
+  { icon: 'heart', title: 'Follow up', text: 'We check how it feels in daily life and make changes as your body changes.' },
+];
+
+const faqs = [
+  { q: 'Do I need a doctor’s referral?', a: 'Not always. For some devices, like a brace after surgery or a fracture, we work from your doctor’s instructions. For others, like foot orthotics, you can usually book directly. Call us if you’re unsure.' },
+  { q: 'Do you make devices for children?', a: 'Yes. We fit braces, AFOs, insoles and prosthetic limbs for children, and we check them often as they grow.' },
+  { q: 'Can you fix or adjust a device made somewhere else?', a: 'Often, yes. Bring it in and we’ll check it. Sometimes a small change or a new socket or strap is all that’s needed.' },
+];
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'AIM Rehab services',
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: s.data.cardTitle,
+    url: new URL(serviceUrl(s.id), site.url + '/').href,
+  })),
+}];
+---
+<Base
+  title="Prosthetics, Braces & Foot Orthotics Services | AIM Rehab"
+  description="Explore AIM Rehab services: prosthetic legs and arms, AFO, KAFO and HKAFO braces, spinal and fracture braces, pediatric orthotics and custom foot orthotics."
+  image={heroImg}
+  schema={schema}
+>
+  <PageHero
+    slot="hero"
+    title="Prosthetic and orthotic services"
+    intro="Artificial limbs, braces and insoles, all made to your measurements and fitted by certified prosthetists and orthotists."
+    image={heroImg}
+    position="50% 40%"
+    crumbs={[{ label: 'Services' }]}
+  />
+
+  <section class="section" aria-labelledby="all-services">
+    <div class="container">
+      <div class="head-center reveal">
+        <span class="tag">What We Do</span>
+        <h2 class="title" id="all-services">Six ways we help you move better</h2>
+        <p class="lead">Pick a service to learn who it helps, how the fitting works and what to expect afterwards.</p>
+      </div>
+      <div class="svc-grid reveal">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" aria-labelledby="process-title">
+    <div class="container">
+      <div class="head-center reveal">
+        <span class="tag">Our Process</span>
+        <h2 class="title" id="process-title">Four simple steps, every time</h2>
+      </div>
+      <div class="steps reveal">
+        {steps.map((s, i) => (
+          <div class="step">
+            <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="step-ic"><Icon name={s.icon} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Pathways />
+
+  <section class="section-sm" aria-labelledby="svc-faq-title">
+    <div class="container-sm reveal">
+      <div class="head-center">
+        <span class="tag">Questions</span>
+        <h2 class="title" id="svc-faq-title">Before you book</h2>
+      </div>
+      <FaqAccordion items={faqs} id="services-faq" />
+      <div class="center" style="margin-top:40px"><Btn href="/faq/" variant="outline">See all FAQs</Btn></div>
+    </div>
+  </section>
+
+  <ContactBlock />
+</Base>

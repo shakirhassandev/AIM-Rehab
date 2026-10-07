@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import PostCard from '../../components/PostCard.astro';
+import { site } from '../../data/site';
+import { getServices, getPosts, serviceUrl } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const services = await getServices();
+  return services.map((service) => ({ params: { slug: service.id }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const { data } = service;
+const { Content } = await render(service);
+const services = await getServices();
+const related = (await getPosts()).filter((p) => p.data.related.includes(service.id)).slice(0, 3);
+const pageUrl = new URL(serviceUrl(service.id), site.url + '/').href;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    name: data.metaTitle,
+    description: data.description,
+    url: pageUrl,
+    about: { '@type': 'MedicalTherapy', name: data.cardTitle },
+    provider: { '@id': `${site.url}/#clinic` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\n\n/g, ' ') },
+    })),
+  },
+];
+---
+<Base title={data.metaTitle} description={data.description} image={data.image} imageAlt={data.imageAlt} schema={schema}>
+  <PageHero
+    slot="hero"
+    title={data.title}
+    intro={data.intro}
+    image={data.image}
+    crumbs={[{ label: 'Services', href: '/services/' }, { label: data.cardTitle }]}
+  />
+
+  <section class="section">
+    <div class="container content-layout">
+      <article class="content-card">
+        <div class="feature-img">
+          <Image src={data.image} alt={data.imageAlt} widths={[640, 960, 1300]} sizes="(max-width: 1023px) 94vw, 820px" quality={75} />
+        </div>
+        <div class="prose">
+          <Content />
+        </div>
+
+        <div class="highlight-box">
+          <div class="device">
+            <Image src={data.deviceImage} alt={data.deviceAlt} widths={[300, 480]} sizes="240px" quality={78} />
+          </div>
+          <div>
+            <h2>What we offer</h2>
+            <ul class="checklist">
+              {data.highlights.map((h) => <li><Icon name="check-circle" />{h}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <h2 class="title" style="font-size:clamp(28px,2.4vw,36px);margin-top:50px">Common questions about {data.cardTitle}</h2>
+        <FaqAccordion items={data.faqs} id="svc-faq" />
+
+        <p class="notice"><Icon name="info" />This page gives general information only. It isn't medical advice. Please talk to your doctor or our team about your own needs.</p>
+      </article>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h2>Our Services</h2>
+          <ul class="side-links">
+            {services.map((s) => (
+              <li><a href={serviceUrl(s.id)} aria-current={s.id === service.id ? 'page' : undefined}>{s.data.cardTitle}<Icon name="arrow-right" /></a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="side-card side-cta">
+          <h2>Not sure what you need?</h2>
+          <p>Call us and we'll talk it through. We can usually tell you over the phone what to bring to your first visit.</p>
+          <a class="phone" href={site.phoneHref}><span class="ic"><Icon name="phone" /></span>{site.phone}</a>
+          <a class="btn btn-light" href="#book">Book a consultation<span class="btn-ic"><Icon name="arrow-up-right" /></span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section-sm" aria-labelledby="related-title">
+      <div class="container">
+        <div class="head-center reveal">
+          <span class="tag">Helpful Reading</span>
+          <h2 class="title" id="related-title">Guides related to this service</h2>
+        </div>
+        <div class="blog-grid reveal">
+          {related.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ContactBlock preselect={service.id} />
+</Base>
