@@ -62,7 +62,7 @@ Copy any file in `src/content/blog/`, rename it (the file name becomes the web a
 
 | Photo | Used on | Source |
 | --- | --- | --- |
-| clinician-guiding-leg-exercise.jpg | Home and About, "Who We Are" | https://www.pexels.com/photo/14797757/ |
+| prosthetic-leg-climbing-gym.jpg | Home and About, "Who We Are" | https://www.pexels.com/photo/4045759/ |
 | decorating-custom-leg-brace.jpg | Home and About, small photo | https://www.pexels.com/photo/3913024/ |
 | fitting-prosthetic-arm-hands.jpg | Home, "Why Choose Us" | https://www.pexels.com/photo/3912959/ |
 | prosthetic-hand-handshake.jpg | Home, "Our Promise" | https://www.pexels.com/photo/3912979/ |

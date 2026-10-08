@@ -6,7 +6,7 @@ interface Props { tag?: string; title?: string }
 const { tag = 'Our Services', title = 'What we offer to help you move better' } = Astro.props;
 const services = await getServices();
 ---
-<section class="section-sm" aria-labelledby="services-title">
+<section aria-labelledby="services-title">
   <div class="panel shell reveal">
     <div class="container">
       <div class="head-center">

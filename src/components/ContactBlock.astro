@@ -8,7 +8,7 @@ interface Props { title?: string; preselect?: string }
 const { title = 'Book an appointment today!', preselect } = Astro.props;
 const services = await getServices();
 ---
-<section class="section-sm" aria-labelledby="contact-title" id="book">
+<section aria-labelledby="contact-title" id="book">
   <div class="panel contact-grid reveal">
     <div class="contact-photo">
       <Image src={img} alt="Older couple walking together on a sunny park path" widths={[480, 800, 1100]} sizes="(max-width: 1023px) 96vw, 50vw" quality={72} style="object-position: 50% 55%" />

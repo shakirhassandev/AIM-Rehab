@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import Btn from './Btn.astro';
-import mainImg from '../assets/images/clinician-guiding-leg-exercise.jpg';
+import mainImg from '../assets/images/prosthetic-leg-climbing-gym.jpg';
 import smallImg from '../assets/images/decorating-custom-leg-brace.jpg';
 
 interface Props { showButton?: boolean; headingLevel?: 'h1' | 'h2' }
@@ -12,7 +12,7 @@ const { showButton = true } = Astro.props;
   <div class="container about-grid">
     <div class="collage reveal">
       <div class="img-main">
-        <Image src={mainImg} alt="Clinician guiding a patient through a leg exercise on a treatment bed" widths={[400, 640, 900]} sizes="(max-width: 1023px) 80vw, 460px" quality={75} style="object-position: 50% 50%" />
+        <Image src={mainImg} alt="Man with an above-knee prosthetic leg holding a climbing harness at an indoor climbing wall" widths={[400, 640, 900]} sizes="(max-width: 1023px) 80vw, 460px" quality={75} style="object-position: 50% 60%" />
       </div>
       <div class="img-small">
         <Image src={smallImg} alt="Hands finishing a custom leg brace covered in a bright heart pattern" widths={[320, 520]} sizes="(max-width: 1023px) 46vw, 300px" quality={75} />
