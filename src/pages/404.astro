@@ -1,10 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Btn from '../components/Btn.astro';
+import Logo from '../components/Logo.astro';
 ---
 <Base title="Page Not Found | AIM Rehab" description="Sorry, we couldn't find that page." noindex>
   <section class="notfound">
     <div>
+      <a class="notfound-logo" href="/" aria-label="AIM Rehab home"><Logo variant="color" width={130} eager /></a>
       <p class="big">404</p>
       <h1 class="title">We couldn't find that page</h1>
       <p class="lead" style="margin:0 auto 34px">The page may have moved, or the link might have a typo. Try one of these instead.</p>

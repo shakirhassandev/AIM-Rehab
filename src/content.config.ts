@@ -3,6 +3,8 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const faq = z.object({ q: z.string(), a: z.string() });
+// Colour mood for the page hero (see .page-hero[data-mood] in global.css).
+const mood = z.enum(['teal', 'navy', 'emerald', 'earth', 'ink']).default('teal');
 
 const services = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/services' }),
@@ -22,6 +24,7 @@ const services = defineCollection({
       deviceAlt: z.string(),
       highlights: z.array(z.string()),
       faqs: z.array(faq),
+      mood,
     }),
 });
 
@@ -40,6 +43,7 @@ const blog = defineCollection({
       imageAlt: z.string(),
       related: z.array(z.string()).default([]),
       faqs: z.array(faq).default([]),
+      mood,
     }),
 });
 

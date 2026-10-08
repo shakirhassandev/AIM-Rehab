@@ -3,20 +3,22 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
 import ContactBlock from '../components/ContactBlock.astro';
+import MapSection from '../components/MapSection.astro';
 import { site, addressLine } from '../data/site';
-import heroImg from '../assets/images/child-walker-mobility-session.jpg';
+import heroImg from '../assets/images/hero-walking-with-cane-autumn.jpg';
 ---
 <Base
-  title="Contact AIM Rehab | Book a Prosthetic or Orthotic Visit"
-  description="Contact AIM Rehab to book an assessment for a prosthetic limb, leg brace, spinal brace, children's orthotics or custom foot orthotics."
+  title="Contact AIM Rehab Rawalpindi | Book a Visit"
+  description="Call, email or visit AIM Rehab at Nelson Medical Complex, Tench Bhata, Rawalpindi. Open Monday to Sunday, 10 AM to 8 PM. Book your assessment today."
   image={heroImg}
 >
   <PageHero
     slot="hero"
     title="Contact us and book a visit"
-    intro="Tell us a little about what you need and we'll get back to you to arrange a time."
+    intro="Call, email or send a message. We're open every day from 10 AM to 8 PM at Nelson Medical Complex, Rawalpindi."
     image={heroImg}
-    position="55% 40%"
+    position="50% 55%"
+    mood="earth"
     crumbs={[{ label: 'Contact' }]}
   />
 
@@ -25,17 +27,17 @@ import heroImg from '../assets/images/child-walker-mobility-session.jpg';
       <div class="info-card">
         <span class="feature-ic"><Icon name="phone" /></span>
         <h2>Call Us</h2>
-        <p><a href={site.phoneHref}>{site.phone}</a></p>
+        <p>{site.phones.map((p, i) => <>{i > 0 && <br />}<a href={p.href}>{p.display}</a></>)}</p>
       </div>
       <div class="info-card">
         <span class="feature-ic"><Icon name="mail" /></span>
         <h2>Email Us</h2>
-        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p>{site.emails.map((e, i) => <>{i > 0 && <br />}<a href={`mailto:${e}`}>{e}</a></>)}</p>
       </div>
       <div class="info-card">
         <span class="feature-ic"><Icon name="pin" /></span>
         <h2>Visit Us</h2>
-        <p>{site.mapUrl ? <a href={site.mapUrl} target="_blank" rel="noopener">{addressLine}</a> : addressLine}</p>
+        <p><a href={site.mapUrl} target="_blank" rel="noopener">{addressLine}</a></p>
       </div>
       <div class="info-card">
         <span class="feature-ic"><Icon name="clock" /></span>
@@ -44,6 +46,8 @@ import heroImg from '../assets/images/child-walker-mobility-session.jpg';
       </div>
     </div>
   </section>
+
+  <MapSection title="How to find us" />
 
   <ContactBlock title="Send us a message" />
 

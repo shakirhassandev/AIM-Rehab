@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import Btn from './Btn.astro';
-import mainImg from '../assets/images/upper-limb-prosthetic-consultation.jpg';
-import smallImg from '../assets/images/child-walker-mobility-session.jpg';
+import mainImg from '../assets/images/clinician-guiding-leg-exercise.jpg';
+import smallImg from '../assets/images/decorating-custom-leg-brace.jpg';
 
 interface Props { showButton?: boolean; headingLevel?: 'h1' | 'h2' }
 const { showButton = true } = Astro.props;
@@ -12,10 +12,10 @@ const { showButton = true } = Astro.props;
   <div class="container about-grid">
     <div class="collage reveal">
       <div class="img-main">
-        <Image src={mainImg} alt="Prosthetist fitting a prosthetic arm and hand for a woman at the AIM Rehab clinic" widths={[400, 640, 900]} sizes="(max-width: 1023px) 80vw, 460px" quality={75} style="object-position: 38% 50%" />
+        <Image src={mainImg} alt="Clinician guiding a patient through a leg exercise on a treatment bed" widths={[400, 640, 900]} sizes="(max-width: 1023px) 80vw, 460px" quality={75} style="object-position: 50% 50%" />
       </div>
       <div class="img-small">
-        <Image src={smallImg} alt="Young boy with leg braces walking with a walker beside a therapist" widths={[320, 520]} sizes="(max-width: 1023px) 46vw, 300px" quality={75} />
+        <Image src={smallImg} alt="Hands finishing a custom leg brace covered in a bright heart pattern" widths={[320, 520]} sizes="(max-width: 1023px) 46vw, 300px" quality={75} />
       </div>
       <span class="bar" aria-hidden="true"></span>
     </div>
@@ -23,7 +23,7 @@ const { showButton = true } = Astro.props;
     <div class="reveal">
       <span class="tag">Who We Are</span>
       <h2 class="title" id="about-title">Personalized prosthetic and orthotic care</h2>
-      <p class="lead">AIM Rehab is a prosthetic and orthotic clinic. We make and fit artificial limbs, leg braces, spinal braces and foot orthotics for adults and children.</p>
+      <p class="lead">AIM Rehab is a prosthetic and orthotic clinic in Rawalpindi. We make and fit artificial limbs, leg braces, spinal braces and foot orthotics for adults and children.</p>
       <p class="lead">Every device starts with a proper check of your body and your goals. Then we build it to your measurements, so it fits you and the way you live.</p>
 
       <div class="feature-pair">

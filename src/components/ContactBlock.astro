@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import { site } from '../data/site';
+import { site, mailtoAll } from '../data/site';
 import { getServices } from '../lib/content';
-import img from '../assets/images/upper-limb-prosthetic-consultation.jpg';
+import img from '../assets/images/older-couple-walking-in-park.jpg';
 
 interface Props { title?: string; preselect?: string }
 const { title = 'Book an appointment today!', preselect } = Astro.props;
@@ -11,10 +11,11 @@ const services = await getServices();
 <section class="section-sm" aria-labelledby="contact-title" id="book">
   <div class="panel contact-grid reveal">
     <div class="contact-photo">
-      <Image src={img} alt="AIM Rehab prosthetist talking with a patient during a consultation" widths={[480, 800, 1100]} sizes="(max-width: 1023px) 96vw, 50vw" quality={72} style="object-position: 30% 40%" />
+      <Image src={img} alt="Older couple walking together on a sunny park path" widths={[480, 800, 1100]} sizes="(max-width: 1023px) 96vw, 50vw" quality={72} style="object-position: 50% 55%" />
       <div class="contact-photo-copy">
         <h2><a href="/faq/">AIM Rehab questions answered.</a></h2>
-        <small>Drop us an email</small>
+        <small>Call or drop us an email</small>
+        <a class="mail" href={site.phoneHref}>{site.phone}</a>
         <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
       </div>
     </div>
@@ -56,7 +57,7 @@ const services = await getServices();
   </div>
 </section>
 
-<script is:inline define:vars={{ email: site.email, endpoint: site.formEndpoint, clinic: site.name }}>
+<script is:inline define:vars={{ email: mailtoAll, endpoint: site.formEndpoint, clinic: site.name }}>
   document.querySelectorAll('[data-contact-form]').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

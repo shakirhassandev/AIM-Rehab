@@ -9,6 +9,7 @@ order: 6
 icon: "svc-foot"
 image: "../../assets/images/custom-foot-orthotic-insoles.jpg"
 imageAlt: "Pair of green and white custom foot orthotic insoles on a clinic table"
+mood: navy
 deviceImage: "../../assets/images/device-foot-orthotics.jpg"
 deviceAlt: "Pair of blue custom foot orthotic insoles with arch support"
 highlights:

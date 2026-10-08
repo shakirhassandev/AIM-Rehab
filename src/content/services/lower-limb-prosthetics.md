@@ -7,8 +7,9 @@ intro: "Below-knee and above-knee artificial legs, built around a socket that fi
 summary: "Below-knee and above-knee artificial legs, built around a socket that fits you well and feels steady."
 order: 1
 icon: "svc-leg"
-image: "../../assets/images/lower-limb-prosthetic-fitting.jpg"
-imageAlt: "Prosthetist adjusting a below-knee prosthetic leg while the patient sits on a clinic bench"
+image: "../../assets/images/prosthetic-leg-in-clinic.jpg"
+imageAlt: "Below-knee prosthetic leg standing on the floor of a bright clinic"
+mood: teal
 deviceImage: "../../assets/images/device-prosthetic-leg.jpg"
 deviceAlt: "Below-knee prosthetic leg with a carbon socket, metal pylon and foot"
 highlights:

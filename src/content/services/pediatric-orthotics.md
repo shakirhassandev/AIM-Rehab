@@ -9,6 +9,7 @@ order: 5
 icon: "svc-child"
 image: "../../assets/images/child-walker-mobility-session.jpg"
 imageAlt: "Young boy wearing leg braces walking with a walker while a therapist kneels beside him"
+mood: teal
 deviceImage: "../../assets/images/device-pediatric-walker-seat.jpg"
 deviceAlt: "Child's walker and supportive seating chair"
 highlights:

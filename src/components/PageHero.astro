@@ -13,8 +13,10 @@ interface Props {
   crumbs: Crumb[];
   position?: string;
   meta?: { icon: string; text: string }[];
+  // Colour mood laid over the photo, so each page hero has its own look.
+  mood?: 'teal' | 'navy' | 'emerald' | 'earth' | 'ink';
 }
-const { title, intro, image, crumbs, position = '50% 35%', meta } = Astro.props;
+const { title, intro, image, crumbs, position = '50% 35%', meta, mood = 'teal' } = Astro.props;
 const all = [{ label: 'Home', href: '/' }, ...crumbs];
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -27,7 +29,7 @@ const breadcrumbSchema = {
   })),
 };
 ---
-<section class="page-hero" style={`--pos:${position}`}>
+<section class="page-hero" data-mood={mood} style={`--pos:${position}`}>
   <div class="hero-media">
     <Image src={image} alt="" widths={[640, 1024, 1600, 2000]} sizes="100vw" loading="eager" fetchpriority="high" quality={72} />
   </div>

@@ -6,8 +6,9 @@ excerpt: "A simple, step-by-step look at what happens from your first assessment
 date: 2026-10-06
 category: "Prosthetics"
 readTime: 6
-image: "../../assets/images/lower-limb-prosthetic-fitting.jpg"
-imageAlt: "Prosthetist adjusting a new prosthetic leg for a patient sitting on a clinic bench"
+image: "../../assets/images/adjusting-prosthetic-leg-running-track.jpg"
+imageAlt: "Man sitting on a running track adjusting his below-knee prosthetic leg"
+mood: earth
 related: ["lower-limb-prosthetics"]
 faqs:
   - q: "How many visits does a prosthetic leg fitting take?"

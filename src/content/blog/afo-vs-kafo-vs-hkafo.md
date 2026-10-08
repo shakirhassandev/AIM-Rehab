@@ -6,8 +6,9 @@ excerpt: "The letters look confusing, but they just tell you which joints the br
 date: 2026-10-02
 category: "Orthotics"
 readTime: 5
-image: "../../assets/images/kafo-knee-brace-fitting.jpg"
-imageAlt: "Orthotist fitting a KAFO leg brace with knee joints on a patient"
+image: "../../assets/images/adjusting-leg-brace-strap.jpg"
+imageAlt: "Clinician fastening the strap of a lower leg brace on a patient"
+mood: navy
 related: ["afo-kafo-hkafo-braces", "pediatric-orthotics"]
 faqs:
   - q: "Is an AFO the same as a foot drop brace?"

@@ -9,6 +9,7 @@ order: 3
 icon: "svc-afo"
 image: "../../assets/images/kafo-knee-brace-fitting.jpg"
 imageAlt: "Orthotist fastening the straps of a KAFO knee brace on a patient's leg"
+mood: emerald
 deviceImage: "../../assets/images/device-afo-kafo-braces.jpg"
 deviceAlt: "A pair of AFO ankle braces next to a pair of KAFO knee and ankle braces"
 highlights:

@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import Btn from './Btn.astro';
+import { site } from '../data/site';
+
+interface Props { title?: string }
+const { title = 'Visit our clinic in Rawalpindi' } = Astro.props;
+---
+<section class="section-sm" aria-labelledby="map-title">
+  <div class="panel map-wrap reveal">
+    <div class="map-card">
+      <span class="tag tag-dark">Find Us</span>
+      <h2 id="map-title">{title}</h2>
+      <p>We're inside Nelson Medical Complex on Abid Majeed Road, opposite MH Gate 6 in Tench Bhata. It's a short drive from most of Rawalpindi and Islamabad.</p>
+      <ul class="map-list">
+        <li>
+          <span class="ic"><Icon name="pin" /></span>
+          <span>{site.address.street},<br />{site.address.area}, {site.address.city}</span>
+        </li>
+        <li>
+          <span class="ic"><Icon name="clock" /></span>
+          <span>{site.hours.map((h) => <>{h.days}<br />{h.time}</>)}</span>
+        </li>
+        <li>
+          <span class="ic"><Icon name="phone" /></span>
+          <span>{site.phones.map((p, i) => <>{i > 0 && <br />}<a href={p.href}>{p.display}</a></>)}</span>
+        </li>
+      </ul>
+      <Btn href={site.mapUrl} variant="light" external>Get directions</Btn>
+    </div>
+    <div class="map-frame">
+      <iframe
+        src={site.mapEmbed}
+        title={`Map showing ${site.name} at Nelson Medical Complex, ${site.address.city}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>

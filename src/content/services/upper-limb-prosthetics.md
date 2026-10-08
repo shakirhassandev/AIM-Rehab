@@ -9,6 +9,7 @@ order: 2
 icon: "svc-arm"
 image: "../../assets/images/upper-limb-prosthetic-consultation.jpg"
 imageAlt: "Prosthetist checking the fit of a prosthetic arm and hand on a female patient"
+mood: navy
 deviceImage: "../../assets/images/device-prosthetic-arm.jpg"
 deviceAlt: "Black prosthetic arm with a jointed mechanical hand"
 highlights:

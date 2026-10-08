@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+import white from '../assets/brand/aim-rehab-logo-white.png';
+import color from '../assets/brand/aim-rehab-logo.png';
+
+interface Props {
+  // white: on dark photos and teal panels. color: on light backgrounds.
+  variant?: 'white' | 'color';
+  width: number;
+  eager?: boolean;
+}
+
+const { variant = 'white', width, eager = false } = Astro.props;
+const src = variant === 'color' ? color : white;
+---
+<Image
+  src={src}
+  alt={`${site.name} logo`}
+  width={width}
+  densities={[1, 2]}
+  loading={eager ? 'eager' : 'lazy'}
+  class="logo-img"
+/>

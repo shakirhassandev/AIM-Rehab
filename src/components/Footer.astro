@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
-import { site, addressLine } from '../data/site';
+import Logo from './Logo.astro';
+import { site, addressLine, mailtoAll } from '../data/site';
 import { getServices, serviceUrl } from '../lib/content';
 
 const services = await getServices();
@@ -12,7 +13,7 @@ const year = new Date().getFullYear();
     <div class="container info-cols">
       <div>
         <h2>Address</h2>
-        <p>{site.address.street}<br />{[site.address.city, site.address.region].filter(Boolean).join(', ')}</p>
+        <p><a href={site.mapUrl} target="_blank" rel="noopener">{site.address.street}<br />{site.address.area}, {site.address.city}</a></p>
       </div>
       <div>
         <h2>Opening Hours</h2>
@@ -20,7 +21,7 @@ const year = new Date().getFullYear();
       </div>
       <div>
         <h2>Contact Us</h2>
-        <p><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={site.phoneHref}>{site.phone}</a></p>
+        <p>{site.phones.map((p) => <><a href={p.href}>{p.display}</a><br /></>)}{site.emails.map((e, i) => <>{i > 0 && <br />}<a href={`mailto:${e}`}>{e}</a></>)}</p>
       </div>
     </div>
   </div>
@@ -29,8 +30,8 @@ const year = new Date().getFullYear();
     <div class="container">
       <div class="footer-cols">
         <div>
-          <a class="brand" href="/"><Icon name="logo" /><span>{site.name}</span></a>
-          <p>AIM Rehab is a prosthetic and orthotic clinic. We make and fit artificial limbs, braces and foot orthotics for adults and children.</p>
+          <a class="brand" href="/" aria-label={`${site.name} home`}><Logo width={150} /></a>
+          <p>AIM Rehab is a prosthetic and orthotic clinic in Rawalpindi. We make and fit artificial limbs, braces and foot orthotics for adults and children.</p>
           {socials.length > 0 && (
             <ul class="footer-social">
               {socials.map(([name, url]) => (
@@ -49,9 +50,9 @@ const year = new Date().getFullYear();
           <h2>Contact</h2>
           <p>Call or message us to book a visit or ask a question about your device.</p>
           <ul class="footer-contact">
-            <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li><Icon name="pin" /><span>{addressLine}</span></li>
-            <li><Icon name="phone" /><a href={site.phoneHref}>{site.phone}</a></li>
+            {site.emails.map((e) => <li><Icon name="mail" /><a href={`mailto:${e}`}>{e}</a></li>)}
+            <li><Icon name="pin" /><a href={site.mapUrl} target="_blank" rel="noopener">{addressLine}</a></li>
+            {site.phones.map((p) => <li><Icon name="phone" /><a href={p.href}>{p.display}</a></li>)}
           </ul>
         </div>
         <div>
@@ -78,7 +79,7 @@ const year = new Date().getFullYear();
   </div>
 </footer>
 
-<script is:inline define:vars={{ email: site.email, endpoint: site.formEndpoint, clinic: site.name }}>
+<script is:inline define:vars={{ email: mailtoAll, endpoint: site.formEndpoint, clinic: site.name }}>
   document.querySelectorAll('[data-callback]').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

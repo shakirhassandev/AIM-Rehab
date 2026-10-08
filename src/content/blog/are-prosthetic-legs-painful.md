@@ -6,8 +6,9 @@ excerpt: "Some soreness is normal at first. Real pain isn't. Here's how to tell 
 date: 2026-09-25
 category: "Prosthetics"
 readTime: 5
-image: "../../assets/images/prosthetic-leg-in-clinic.jpg"
-imageAlt: "Below-knee prosthetic leg standing on the floor of a bright rehab clinic"
+image: "../../assets/images/prosthetic-leg-resting-park-bench.jpg"
+imageAlt: "Person resting a prosthetic leg on a park bench beside flower beds"
+mood: emerald
 related: ["lower-limb-prosthetics"]
 faqs:
   - q: "Why does my prosthetic leg hurt at the end of the day?"

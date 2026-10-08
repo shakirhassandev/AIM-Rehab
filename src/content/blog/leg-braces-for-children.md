@@ -6,8 +6,9 @@ excerpt: "Why children wear braces, what the fitting is like and practical tips 
 date: 2026-09-18
 category: "Children"
 readTime: 6
-image: "../../assets/images/child-walker-mobility-session.jpg"
-imageAlt: "Smiling young boy with leg braces walking with a walker next to a therapist"
+image: "../../assets/images/child-wearing-patterned-afo.jpg"
+imageAlt: "Child wearing a pink heart-pattern ankle foot orthosis with a matching sneaker"
+mood: teal
 related: ["pediatric-orthotics", "afo-kafo-hkafo-braces"]
 faqs:
   - q: "At what age can a child start wearing an AFO?"

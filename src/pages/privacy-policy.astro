@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
-import heroImg from '../assets/images/custom-foot-orthotic-insoles.jpg';
+import heroImg from '../assets/images/hero-x-ray-pattern-blue.jpg';
 ---
 <Base title="Privacy Policy | AIM Rehab" description="How AIM Rehab collects, uses and protects the personal information you share through our website, forms and appointments." image={heroImg}>
-  <PageHero slot="hero" title="Privacy Policy" intro="How we look after the information you share with us." image={heroImg} crumbs={[{ label: 'Privacy Policy' }]} />
+  <PageHero slot="hero" mood="navy" title="Privacy Policy" intro="How we look after the information you share with us." image={heroImg} crumbs={[{ label: 'Privacy Policy' }]} />
   <section class="section">
     <div class="container">
       <div class="content-card legal prose">

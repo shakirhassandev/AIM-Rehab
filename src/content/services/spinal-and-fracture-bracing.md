@@ -9,6 +9,7 @@ order: 4
 icon: "svc-spine"
 image: "../../assets/images/spinal-brace-fitting.jpg"
 imageAlt: "Orthotist fitting a white spinal brace on a smiling woman"
+mood: earth
 deviceImage: "../../assets/images/device-spinal-brace.jpg"
 deviceAlt: "White plastic spinal brace with grey padded straps"
 highlights:

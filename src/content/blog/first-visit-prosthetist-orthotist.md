@@ -6,8 +6,9 @@ excerpt: "What a prosthetist and orthotist actually do, plus a simple checklist 
 date: 2026-09-03
 category: "Getting Started"
 readTime: 5
-image: "../../assets/images/spinal-brace-fitting.jpg"
-imageAlt: "Orthotist fitting a spinal brace on a patient during a clinic visit"
+image: "../../assets/images/first-consultation-in-clinic.jpg"
+imageAlt: "Clinician and patient talking during a first consultation in a bright clinic"
+mood: navy
 related: ["lower-limb-prosthetics", "spinal-and-fracture-bracing"]
 faqs:
   - q: "What is the difference between a prosthetist and an orthotist?"

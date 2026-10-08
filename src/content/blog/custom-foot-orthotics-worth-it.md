@@ -6,8 +6,9 @@ excerpt: "Custom insoles can make a real difference for some foot problems. Here
 date: 2026-09-10
 category: "Foot Care"
 readTime: 5
-image: "../../assets/images/custom-foot-orthotic-insoles.jpg"
-imageAlt: "Pair of custom foot orthotic insoles with green arch support on a table"
+image: "../../assets/images/foot-x-ray-on-tablet.jpg"
+imageAlt: "Clinician holding a tablet that shows an X-ray of a foot"
+mood: ink
 related: ["custom-foot-orthotics"]
 faqs:
   - q: "Can I wear one pair of orthotics in all my shoes?"

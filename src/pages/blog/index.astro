@@ -5,7 +5,7 @@ import PostCard from '../../components/PostCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { site } from '../../data/site';
 import { getPosts, postUrl } from '../../lib/content';
-import heroImg from '../../assets/images/prosthetic-leg-in-clinic.jpg';
+import heroImg from '../../assets/images/hero-prosthetic-arm-tying-shoes.jpg';
 
 const posts = await getPosts();
 const categories = [...new Set(posts.map((p) => p.data.category))];
@@ -34,7 +34,8 @@ const schema = [{
     title="Guides and tips from our clinic"
     intro="Plain-English answers to the questions our patients ask most, about artificial limbs, braces, insoles and daily care."
     image={heroImg}
-    position="50% 45%"
+    position="50% 50%"
+    mood="emerald"
     crumbs={[{ label: 'Blog' }]}
   />
 

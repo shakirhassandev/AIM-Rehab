@@ -13,6 +13,7 @@ import PromiseSection from '../components/Promise.astro';
 import TeamGrid from '../components/TeamGrid.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import BlogSection from '../components/BlogSection.astro';
+import MapSection from '../components/MapSection.astro';
 import { site } from '../data/site';
 import hero from '../assets/images/hero-prosthetic-leg-fitting.jpg';
 
@@ -24,8 +25,8 @@ const schema = [{
 }];
 ---
 <Base
-  title="AIM Rehab | Prosthetic & Orthotic Clinic for Adults and Kids"
-  description="Custom prosthetic legs and arms, AFO and KAFO braces, spinal braces and foot orthotics. AIM Rehab assesses, fits and follows up with adults and children."
+  title="AIM Rehab | Prosthetic & Orthotic Clinic in Rawalpindi"
+  description="Prosthetic legs and arms, AFO and KAFO braces, spinal braces and foot orthotics in Rawalpindi. Made to fit adults and children. Open 7 days a week."
   image={hero}
   imageAlt="Prosthetist fitting a prosthetic leg for a patient at AIM Rehab"
   schema={schema}
@@ -42,7 +43,7 @@ const schema = [{
           ISPO certified prosthetists &amp; orthotists
         </p>
         <h1 id="hero-title">Prosthetic &amp; Orthotic Care Made to Fit You</h1>
-        <p class="hero-lead">Custom artificial limbs, braces and insoles for adults and children. We assess, measure, fit and follow up, so your device feels right in everyday life.</p>
+        <p class="hero-lead">Custom artificial limbs, braces and insoles for adults and children in Rawalpindi. We assess, measure, fit and follow up, so your device feels right in everyday life.</p>
         <div class="hero-actions">
           <Btn href="/contact/" variant="light">Book a consultation</Btn>
         </div>
@@ -50,8 +51,8 @@ const schema = [{
     </div>
     <div class="hero-bar">
       <div><strong>{site.phone}</strong><a href={site.phoneHref}>Give Us a Call</a></div>
-      <div>{site.hours.map((h) => <strong>{h.days}: {h.time}</strong>)}</div>
-      <div><strong>{site.address.street}</strong><span>{site.address.city}</span></div>
+      <div>{site.hours.map((h) => <><strong>{h.time}</strong><span>Open {h.days}</span></>)}</div>
+      <div><strong>Nelson Medical Complex, {site.address.city}</strong><a href={site.mapUrl} target="_blank" rel="noopener">Get Directions</a></div>
     </div>
   </section>
 
@@ -64,4 +65,5 @@ const schema = [{
   <TeamGrid />
   <ContactBlock />
   <BlogSection />
+  <MapSection />
 </Base>

@@ -5,7 +5,7 @@ import FaqAccordion from '../components/FaqAccordion.astro';
 import Icon from '../components/Icon.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { site } from '../data/site';
-import heroImg from '../assets/images/spinal-brace-fitting.jpg';
+import heroImg from '../assets/images/hero-knee-x-ray-review.jpg';
 
 const groups = [
   {
@@ -13,6 +13,8 @@ const groups = [
     title: 'Getting started',
     items: [
       { q: 'What does a prosthetist and orthotist do?', a: 'A prosthetist makes and fits artificial limbs, like prosthetic legs and arms. An orthotist makes and fits braces, splints and insoles that support a part of your body. Our team is trained in both.' },
+      { q: 'Where is AIM Rehab?', a: `We're inside Nelson Medical Complex on Abid Majeed Road, opposite MH Gate 6 in Tench Bhata, Rawalpindi. You can find us on Google Maps from our contact page.` },
+      { q: 'When are you open?', a: `We're open every day, Monday to Sunday, from 10 AM to 8 PM. Call ${site.phone} or ${site.phones[1].display} to book a time that suits you.` },
       { q: 'Do I need a referral to book?', a: "Not always. For a brace after surgery, an injury or a fracture, we work from your doctor's instructions, so please bring any letters you have. For things like foot orthotics, you can usually book directly. If you're not sure, just call us." },
       { q: 'What should I bring to my first visit?', a: "Bring any doctor's letters or scan reports, a list of your medicines, the shoes you wear most often and any device you already use. A list of questions helps too. Read our guide on how to prepare for your first visit for more tips." },
       { q: 'How long is the first appointment?', a: 'Plan for about an hour. It can be shorter or longer depending on what you need and whether we take a cast on the same day.' },
@@ -81,7 +83,7 @@ const schema = [{
     title="Frequently asked questions"
     intro="Simple answers to the questions we hear most. Can't find yours? Call us or send a message."
     image={heroImg}
-    position="50% 25%"
+    position="50% 40%"
     crumbs={[{ label: 'FAQ' }]}
   />
 

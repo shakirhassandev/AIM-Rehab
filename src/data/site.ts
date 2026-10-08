@@ -2,41 +2,54 @@
 // Business details used across the whole site.
 // Change them here once and every page, the footer and the
 // Google structured data update together.
-// Anything marked TODO still needs the real value before launch.
 // ─────────────────────────────────────────────────────────────
 import { SITE_URL } from './site-url.mjs';
+
+const phones = [
+  { display: '+92 341 6413289', href: 'tel:+923416413289' },
+  { display: '+92 331 5548270', href: 'tel:+923315548270' },
+];
+const emails = ['ah5006154@gmail.com', 'khrram51@gmail.com'];
 
 export const site = {
   name: 'AIM Rehab',
   url: SITE_URL,
-  tagline: 'Prosthetic & Orthotic Clinic',
+  tagline: 'Prosthetic & Orthotic Clinic in Rawalpindi',
+  slogan: 'Advancements in Mobility',
   description:
-    'AIM Rehab is a prosthetic and orthotic clinic. We make and fit artificial limbs, leg braces, spinal braces and custom foot orthotics for adults and children.',
+    'AIM Rehab is a prosthetic and orthotic clinic in Rawalpindi. We make and fit artificial limbs, leg braces, spinal braces and custom foot orthotics for adults and children.',
 
-  // TODO: real phone number. `phoneHref` is the same number with no spaces.
-  phone: '+92 3XX XXX XXXX',
-  phoneHref: 'tel:+923000000000',
-  // TODO: WhatsApp number in international format, digits only (e.g. 923001234567).
+  // The first phone and email are the main ones. They're used where only one fits.
+  phones,
+  emails,
+  phone: phones[0].display,
+  phoneHref: phones[0].href,
+  email: emails[0],
+  // WhatsApp number in international format, digits only (e.g. 923001234567). Empty hides it.
   whatsapp: '',
-  // TODO: real email address.
-  email: 'hello@your-domain.com',
 
-  // TODO: real clinic address. Leave `mapUrl` empty if you don't have one yet.
   address: {
-    street: 'Clinic street address',
-    city: 'City',
-    region: '',
-    postalCode: '',
+    street: 'Nelson Medical Complex, Abid Majeed Road',
+    area: 'Opposite MH Gate 6, Tench Bhata',
+    city: 'Rawalpindi',
+    region: 'Punjab',
+    postalCode: '46000',
     country: 'PK',
   },
-  mapUrl: '',
+  geo: { lat: 33.5973399, lng: 73.0413231 },
+  // Google Maps place for Nelson Medical Complex. `mapEmbed` is the map shown on the site.
+  mapUrl: 'https://maps.google.com/?cid=4590295246760578247',
+  mapEmbed: 'https://www.google.com/maps/embed?pb=!1m3!3m2!1m1!4s4590295246760578247!3m1!1sen!5m1!1sen',
 
-  hours: [
-    { days: 'Mon to Sat', time: 'By appointment' },
-    { days: 'Sunday', time: 'Closed' },
-  ],
+  hours: [{ days: 'Monday to Sunday', time: '10 AM to 8 PM' }],
+  // The same hours in the format Google reads.
+  openingHours: {
+    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '10:00',
+    closes: '20:00',
+  },
 
-  // TODO: add your page links. Empty links are hidden.
+  // Add your page links. Empty links are hidden.
   socials: {
     facebook: '',
     instagram: '',
@@ -46,11 +59,12 @@ export const site = {
 
   // Optional. Paste a form endpoint (Formspree, Web3Forms, etc.) to receive
   // form messages by email. When empty, the form opens the visitor's email app
-  // with the message filled in, addressed to `email` above.
+  // with the message filled in, addressed to the emails above.
   formEndpoint: '',
 };
 
-export const addressLine = [site.address.street, site.address.city].filter(Boolean).join(', ');
+export const addressLine = [site.address.street, site.address.area, site.address.city].join(', ');
+export const mailtoAll = emails.join(',');
 
 export const nav = [
   { label: 'Home', href: '/' },

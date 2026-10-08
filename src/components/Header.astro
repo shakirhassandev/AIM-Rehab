@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 import { site, nav } from '../data/site';
 import { getServices, serviceUrl } from '../lib/content';
 
@@ -10,8 +11,7 @@ const socials = Object.entries(site.socials).filter(([, url]) => url);
 ---
 <header class="site-header">
   <a class="brand" href="/" aria-label={`${site.name} home`}>
-    <Icon name="logo" />
-    <span>{site.name}</span>
+    <Logo width={104} eager />
   </a>
 
   <nav aria-label="Main">
