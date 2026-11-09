@@ -1,88 +1,98 @@
-# AIM Rehab website
+# AIM Rehab HTML5 website
 
-A static website for AIM Rehab, a prosthetic and orthotic clinic in Rawalpindi, built with [Astro](https://astro.build). The layout follows the Fertilys template. It builds to plain HTML, CSS and images in `dist/`, so you can host it anywhere (Netlify, Vercel, Cloudflare Pages, cPanel, etc.).
+A standalone website made with HTML5, CSS and vanilla JavaScript. All 22 pages are real HTML files, including the six service pages, six blog posts and custom 404 page. There is no framework, dependency install, compilation, client-side routing or application server required to publish it.
 
-## Run it
+## Preview
 
-```bash
-npm install        # first time only
-npm run dev        # local preview at http://localhost:4321
-npm run build      # makes the final site in dist/
-npm run preview    # preview the built site
+Open **index.html** directly in a browser, or use any static web server. Relative links also allow the website to be hosted in a subfolder.
+
+For the included local server, use Node.js 20 or newer:
+
+```sh
+npm run dev
 ```
 
-## Before you launch
+Visit **http://127.0.0.1:4321**. No `npm install` is needed. On Windows PowerShell, use `npm.cmd` if your execution policy blocks `npm.ps1`.
 
-Business details live in one file: **`src/data/site.ts`**. Change them there and every page, the footer, the map and the Google structured data update together.
+## Publish
 
-Already filled in: both phone numbers, both email addresses, the clinic address (Nelson Medical Complex, Abid Majeed Road, opposite MH Gate 6, Tench Bhata, Rawalpindi), the Google Map and the opening hours (Monday to Sunday, 10 AM to 8 PM).
+Upload the HTML page folders, `assets/`, root icons, `robots.txt` and sitemap XML files to any static host, including cPanel, Netlify, Vercel or Cloudflare Pages. Existing directory URLs such as `/about/` and `/services/lower-limb-prosthetics/` continue to work; internal links explicitly reference `index.html` so they also work when opened from disk.
 
-Still to do:
+You can also prepare a folder containing only the files needed for hosting:
 
-1. **Your domain** in `src/data/site-url.mjs`. It's used for canonical links, the sitemap, `robots.txt` and social previews.
-2. **Social links** in `src/data/site.ts`. Empty links are hidden. When none are set, the header shows your phone number instead.
-3. **WhatsApp** (optional). Add the number to `whatsapp` in `src/data/site.ts` if the clinic uses it.
-4. **Contact form.** By default it opens the visitor's email app with the message filled in, sent to both emails. To get messages straight to your inbox, paste a form endpoint (Formspree, Web3Forms or similar) into `formEndpoint`.
-5. **Privacy Policy and Terms.** These are plain starting drafts. Have them checked before launch.
-6. After launch, submit `https://your-domain/sitemap-index.xml` in Google Search Console, and add your website link to the clinic's Google Business Profile.
+```sh
+npm run build
+npm run preview
+```
 
-## Where things are
+`build` checks the site and copies it into **dist/**. It does not compile or transform the website. Upload the contents of `dist/` to your host. `preview` serves this folder at the same local address. Stop an existing preview with Ctrl+C before starting another one on the same port. Configure your host to use `/404.html` for missing pages. For hosting in a subfolder, update the `<base href="/">` in `404.html` to that subfolder so the error page's links resolve correctly.
 
-| What | Where |
+## Edit the website
+
+| Content | Location |
 | --- | --- |
-| Business details, hours, map | `src/data/site.ts` |
-| Service pages (text, FAQs, images) | `src/content/services/*.md` |
-| Blog posts | `src/content/blog/*.md` |
-| Team profiles | `src/data/team.ts` |
-| Home page sections | `src/components/*.astro` |
-| Map section (home and contact pages) | `src/components/MapSection.astro` |
-| Colors, fonts, spacing | `src/styles/global.css` (top of file) |
-| Photos | `src/assets/images/` (resized and converted to WebP on build) |
-| Logo | `src/assets/brand/` (white version for dark areas, colour version for light ones), plus `public/logo.png`, `public/favicon.png` and `public/apple-touch-icon.png` |
+| Home page | `index.html` |
+| About, contact, team, FAQ and policy pages | Each folder's `index.html` |
+| Service overview and individual services | `services/index.html`, `services/<slug>/index.html` |
+| Blog overview and individual posts | `blog/index.html`, `blog/<slug>/index.html` |
+| Colors, spacing, layout and responsive styles | `assets/css/styles.css` |
+| Local font declarations | `assets/css/fonts.css` |
+| Menu, accordions, sliders, counters and forms | `assets/js/main.js` |
+| Form recipient addresses and optional endpoint | `assets/js/config.js` |
+| Responsive photos, device images and logos | `assets/images/` |
+| Local fonts and their licenses | `assets/fonts/` |
+| Deployable file/folder list | `scripts/site-files.mjs` |
 
-### Add a blog post
+Headers, footers and business details are written into every HTML page so they load without JavaScript. When changing shared details, update all affected HTML files, including their structured data and form `action` attributes. The form configuration changes JavaScript submission settings; it does not rewrite visible contact details.
 
-Copy any file in `src/content/blog/`, rename it (the file name becomes the web address), change the details at the top and write the post below. It shows up on the blog page and the home page automatically.
+Photos retain their optimized WebP variants and `srcset` sizes. If replacing a photo, update its `src`, `srcset`, width, height and alt text together. Add new pages as ordinary HTML files and update the relevant navigation, sitemap and `scripts/site-files.mjs` if adding a new top-level folder.
 
-## SEO included
+## Contact forms
 
-- A unique title and description on every page, with Rawalpindi on the main pages for local search
-- One H1 per page and a clean heading order
-- Structured data for Google: clinic details with address, map, map pin and opening hours, plus services, FAQs, blog posts, team and breadcrumbs
-- Auto-generated sitemap and `robots.txt`
-- Responsive WebP images with descriptive alt text
-- Internal links between services, guides, FAQs and the contact page
-- Medical copy avoids guarantees and fake reviews
+Appointment and callback forms open the visitor's email app with their request addressed to both clinic email addresses. The visitor must send the email; a static website cannot deliver email on its own.
 
-## Photos
+To use a hosted form service, put its submission URL in **assets/js/config.js** under `formEndpoint`. The forms will POST to it, show success only for successful HTTP responses and retain the entered details if submission fails. This requires an internet connection and a form service that accepts browser requests. Test the endpoint after configuring it.
 
-- The service photos, the home page hero, the team portraits and the device shots come from the AIM Rehab design files.
-- The other photos are free stock photos from [Pexels](https://www.pexels.com/license/). They're free for business use and don't need a credit. Swap any of them for real clinic photos when you have them. Keep the same file name and the site picks it up.
-- Each inner page hero has a colour mood (`teal`, `navy`, `emerald`, `earth` or `ink`), so no two pages look the same. Set it with the `mood` prop on `PageHero`, or with `mood:` at the top of a service or blog file.
+## Before launch
 
-| Photo | Used on | Source |
-| --- | --- | --- |
-| prosthetic-leg-climbing-gym.jpg | Home and About, "Who We Are" | https://www.pexels.com/photo/4045759/ |
-| decorating-custom-leg-brace.jpg | Home and About, small photo | https://www.pexels.com/photo/3913024/ |
-| fitting-prosthetic-arm-hands.jpg | Home, "Why Choose Us" | https://www.pexels.com/photo/3912959/ |
-| prosthetic-hand-handshake.jpg | Home, "Our Promise" | https://www.pexels.com/photo/3912979/ |
-| older-couple-walking-in-park.jpg | Booking form photo | https://www.pexels.com/photo/16177535/ |
-| adjusting-prosthetic-leg-running-track.jpg | Blog: prosthetic leg fitting | https://www.pexels.com/photo/8346646/ |
-| adjusting-leg-brace-strap.jpg | Blog: AFO vs KAFO vs HKAFO | https://www.pexels.com/photo/13538710/ |
-| prosthetic-leg-resting-park-bench.jpg | Blog: are prosthetic legs painful | https://www.pexels.com/photo/8437066/ |
-| child-wearing-patterned-afo.jpg | Blog: leg braces for children | https://www.pexels.com/photo/3912370/ |
-| foot-x-ray-on-tablet.jpg | Blog: custom foot orthotics | https://www.pexels.com/photo/8376138/ |
-| first-consultation-in-clinic.jpg | Blog: your first visit | https://www.pexels.com/photo/4266939/ |
-| hero-walking-by-the-water.jpg | About hero | https://www.pexels.com/photo/9623428/ |
-| hero-prosthetic-leg-studio.jpg | Services hero | https://www.pexels.com/photo/8436966/ |
-| hero-hands-at-workbench.jpg | Team hero | https://www.pexels.com/photo/5963131/ |
-| hero-prosthetic-arm-tying-shoes.jpg | Blog hero | https://www.pexels.com/photo/5386247/ |
-| hero-knee-x-ray-review.jpg | FAQ hero | https://www.pexels.com/photo/7446985/ |
-| hero-walking-with-cane-autumn.jpg | Contact hero | https://www.pexels.com/photo/31400541/ |
-| hero-x-ray-pattern-blue.jpg | Privacy Policy hero | https://www.pexels.com/photo/7723513/ |
-| hero-knee-joint-model.jpg | Terms hero | https://www.pexels.com/photo/27376664/ |
+- Replace **https://www.your-domain.com** throughout the HTML files, `robots.txt` and both sitemap files with your actual domain. Include the hosting subfolder in metadata URLs if applicable.
+- Check the clinic's phone numbers, emails, address, hours and map.
+- Review the existing Privacy Policy and Terms drafts.
+- Configure and test a form endpoint if you need direct submissions rather than the email-app fallback.
+- Submit `sitemap-index.xml` to Google Search Console after publishing.
 
-## Content notes
+## Validation
 
-- The "Our Promise" section on the home page holds the clinic's own promises, not patient reviews. Swap in real reviews there once you have patient permission.
-- The numbers on the home page (3+ years, 2 specialists, 6 services, 4 steps) come from the team details you supplied. Update them in `src/components/WhyChoose.astro` if they change.
+```sh
+npm run check
+```
+
+The dependency-free checker verifies HTML5 doctypes, unique page titles, descriptions, canonical tags, one H1 per page, unique element IDs, image alt text, structured-data JSON, local links and anchors, responsive images, scripts, styles and font files. The build runs this check on both the source and the packaged site.
+
+## Photo credits
+
+The clinic's service photos, team portraits and device images come from the supplied AIM Rehab design files. Other photos are from [Pexels](https://www.pexels.com/license/):
+
+| Photo | Source |
+| --- | --- |
+| Prosthetic leg climbing gym | https://www.pexels.com/photo/4045759/ |
+| Decorating a custom leg brace | https://www.pexels.com/photo/3913024/ |
+| Fitting a prosthetic arm | https://www.pexels.com/photo/3912959/ |
+| Prosthetic handshake | https://www.pexels.com/photo/3912979/ |
+| Older couple walking | https://www.pexels.com/photo/16177535/ |
+| Prosthetic leg fitting at track | https://www.pexels.com/photo/8346646/ |
+| Adjusting a leg brace | https://www.pexels.com/photo/13538710/ |
+| Prosthetic leg on park bench | https://www.pexels.com/photo/8437066/ |
+| Child wearing an AFO | https://www.pexels.com/photo/3912370/ |
+| Foot X-ray | https://www.pexels.com/photo/8376138/ |
+| First consultation | https://www.pexels.com/photo/4266939/ |
+| Walking by the water | https://www.pexels.com/photo/9623428/ |
+| Prosthetic leg studio | https://www.pexels.com/photo/8436966/ |
+| Hands at workbench | https://www.pexels.com/photo/5963131/ |
+| Prosthetic arm tying shoes | https://www.pexels.com/photo/5386247/ |
+| Knee X-ray review | https://www.pexels.com/photo/7446985/ |
+| Walking with a cane | https://www.pexels.com/photo/31400541/ |
+| X-ray pattern | https://www.pexels.com/photo/7723513/ |
+| Knee joint model | https://www.pexels.com/photo/27376664/ |
+
+The home page's “Our Promise” section contains the clinic's commitments, not patient reviews. Clinic statistics and all medical copy have been preserved from the supplied website.
