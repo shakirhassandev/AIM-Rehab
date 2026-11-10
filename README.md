@@ -37,7 +37,7 @@ npm run preview
 | Blog overview and individual posts | `blog/index.html`, `blog/<slug>/index.html` |
 | Colors, spacing, layout and responsive styles | `assets/css/styles.css` |
 | Local font declarations | `assets/css/fonts.css` |
-| Menu, accordions, services slider, promise slider and forms | `assets/js/main.js` |
+| Menu, accordions, blog topic filter and forms | `assets/js/main.js` |
 | Form recipient addresses and optional endpoint | `assets/js/config.js` |
 | Responsive photos, device images and logos | `assets/images/` |
 | Local fonts and their licenses | `assets/fonts/` |

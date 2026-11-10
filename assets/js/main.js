@@ -72,57 +72,16 @@
   updateToTop();
   toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'instant' }));
 
-  // Services carousel: dots jump straight to a set of cards. It never moves on its own.
-  document.querySelectorAll('[data-slider]').forEach((slider) => {
-    const track = slider.querySelector('[data-track]');
-    const dots = slider.querySelector('[data-dots]');
-    if (!track || !dots) return;
-    const cards = Array.from(track.children);
-    if (!cards.length) return;
-    let pages = 1;
-    const step = () => cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
-    const current = () => Math.max(0, Math.min(pages - 1, Math.round(track.scrollLeft / (step() || 1))));
-    const sync = () => dots.querySelectorAll('button').forEach((button, index) => {
-      button.setAttribute('aria-current', String(index === current()));
-    });
-    const go = (index) => track.scrollTo({ left: index * step(), behavior: 'instant' });
-    const build = () => {
-      const perView = Math.max(1, Math.round(track.clientWidth / (step() || 1)));
-      pages = Math.max(1, cards.length - perView + 1);
-      dots.replaceChildren();
-      dots.hidden = pages < 2;
-      for (let index = 0; index < pages; index += 1) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.setAttribute('aria-label', `Show slide ${index + 1}`);
-        button.addEventListener('click', () => go(index));
-        dots.appendChild(button);
-      }
-      sync();
-    };
-    track.addEventListener('scroll', () => window.requestAnimationFrame(sync), { passive: true });
-    window.addEventListener('resize', build);
-    // Fonts can affect card positions after the initial layout.
-    document.fonts?.ready.then(build);
-    build();
-  });
-
-  // Promise carousel.
-  document.querySelectorAll('[data-quotes]').forEach((wrapper) => {
-    const slides = Array.from(wrapper.querySelectorAll('.quote-slide'));
-    if (!slides.length) return;
-    let current = 0;
-    const show = (index) => {
-      current = (index + slides.length) % slides.length;
-      slides.forEach((slide, position) => {
-        const active = position === current;
-        slide.classList.toggle('is-active', active);
-        if (active) slide.removeAttribute('aria-hidden');
-        else slide.setAttribute('aria-hidden', 'true');
+  // Blog topic filter: shows only the posts in the chosen topic.
+  document.querySelectorAll('[data-filter]').forEach((bar) => {
+    const cards = Array.from(document.querySelectorAll('.post-card[data-category]'));
+    bar.querySelectorAll('button[data-cat]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const cat = button.dataset.cat;
+        bar.querySelectorAll('button[data-cat]').forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+        cards.forEach((card) => { card.hidden = cat !== 'all' && card.dataset.category !== cat; });
       });
-    };
-    wrapper.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
-    wrapper.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
+    });
   });
 
   // Optional hosted form endpoint, with the original email-app fallback.
@@ -135,6 +94,9 @@
         ? form.parentElement.querySelector('[data-callback-note]')
         : form.querySelector('[data-form-note]');
       const data = new FormData(form);
+      // A phone field with a fixed country code sends the full number.
+      const phoneInput = form.querySelector('input[name="phone"][data-prefix]');
+      if (phoneInput && data.get('phone')) data.set('phone', `${phoneInput.dataset.prefix} ${String(data.get('phone')).trim()}`);
       const subject = `${callback ? 'Call back' : 'Appointment'} request for ${settings.clinic || 'AIM Rehab'}`;
       const endpoint = form.dataset.endpoint || settings.formEndpoint;
       if (endpoint) {
@@ -165,6 +127,7 @@
         `Phone: ${data.get('phone')}`,
         `Email: ${data.get('email') || 'Not given'}`,
         `Service: ${data.get('service') || 'Not sure yet'}`,
+        `Preferred date: ${data.get('date') || 'Any'}`,
         '',
         String(data.get('message') || ''),
       ].join('\n');
