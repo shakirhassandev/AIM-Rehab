@@ -84,6 +84,87 @@
     });
   });
 
+  // Gold marker under a heading. The text is wrapped once so the marker can follow line breaks.
+  const marker = (heading) => {
+    let span = heading.querySelector(':scope > .hl');
+    if (!span) {
+      span = document.createElement('span');
+      span.className = 'hl';
+      span.append(...heading.childNodes);
+      heading.append(span);
+    }
+    return span;
+  };
+  const canObserve = 'IntersectionObserver' in window;
+  const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  // Section titles light up as they scroll into view.
+  if (canObserve) {
+    const lightUp = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      marker(entry.target).classList.add('is-lit');
+      lightUp.unobserve(entry.target);
+    }), { rootMargin: '0px 0px -15% 0px' });
+    document.querySelectorAll('.title').forEach((title) => { marker(title); lightUp.observe(title); });
+  }
+
+  // Cards and sections rise into place as you scroll. Anything already on screen is left alone.
+  const REVEAL = [
+    '.head-center', '.title-left', '.title-center', '.svc-tile', '.why-band', '.journey li', '.team-feature', '.promise-card',
+    '.faq-split-head', '.acc-item', '.cta-band', '.mission-card', '.who-card', '.navy-card', '.split-card', '.promise-list li',
+    '.duo-card', '.featured-svc', '.svc-row', '.unsure', '.booking-form', '.side-box', '.map-block', '.fact-row li', '.post-card',
+    '.content-card', '.side-card', '.profile', '.faq-group > h2', '.filter-bar', '.notfound > div',
+  ].join(', ');
+  if (motionOK && canObserve) {
+    const reveal = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      reveal.unobserve(entry.target);
+    }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll(REVEAL).forEach((element) => {
+      if (element.getBoundingClientRect().top < window.innerHeight) return;
+      const group = Array.from(element.parentElement.children).filter((child) => child.matches(REVEAL));
+      element.style.setProperty('--d', String(Math.min(group.indexOf(element), 5)));
+      element.classList.add('reveal');
+      reveal.observe(element);
+    });
+  }
+
+  // "On this page": highlight the section you are reading, in the list and on the heading itself.
+  document.querySelectorAll('.toc').forEach((toc) => {
+    const items = Array.from(toc.querySelectorAll('a[href^="#"]'))
+      .map((link) => ({ link, heading: document.getElementById(decodeURIComponent(link.hash.slice(1))) }))
+      .filter((item) => item.heading);
+    if (!items.length) return;
+    items.forEach((item) => { item.mark = marker(item.heading); });
+    let current = null;
+    const update = () => {
+      const line = window.innerHeight * 0.3;
+      let active = null;
+      items.forEach((item) => { if (item.heading.getBoundingClientRect().top <= line) active = item; });
+      if (active === current) return;
+      if (current) {
+        current.link.classList.remove('is-active');
+        current.link.removeAttribute('aria-current');
+        current.mark.classList.remove('is-lit');
+      }
+      current = active;
+      if (current) {
+        current.link.classList.add('is-active');
+        current.link.setAttribute('aria-current', 'location');
+        current.mark.classList.add('is-lit');
+      }
+    };
+    let queued = false;
+    window.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(() => { queued = false; update(); });
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+
   // Optional hosted form endpoint, with the original email-app fallback.
   document.querySelectorAll('[data-contact-form], [data-callback]').forEach((form) => {
     form.addEventListener('submit', async (event) => {

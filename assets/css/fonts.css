@@ -1,3 +1,13 @@
+/* Ampersand only: a classic serif & for headings, in place of Playfair's ornate one. */
+@font-face {
+  font-family: 'AIM Ampersand';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url(../fonts/bodoni-moda-ampersand-wght.woff2) format('woff2-variations');
+  unicode-range: U+26;
+}
+
 /* playfair-display-latin-ext-wght-italic */
 @font-face {
   font-family: 'Playfair Display';
